@@ -10,4 +10,10 @@ public class DashboardController {
     public String mainpage(){
         return "index";
     }
+
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 }
