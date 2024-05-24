@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add/Edit Medication</title>
+</head>
+<body>
+<h1 th:text="${medicament.id == null ? 'Add Medication' : 'Edit Medication'}"></h1>
+<form th:action="@{${medicament.id == null ? '/medicaments' : '/medicaments/' + ${medicament.id}}}" th:method="post" enctype="multipart/form-data">
+    <div>
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required/>
+    </div>
+    <div>
+        <label>Description:</label>
+        <input type="text" th:field="*{description}" required/>
+    </div>
+    <div>
+        <label>Image:</label>
+        <input type="file" name="imageFile"/>
+        <img th:if="${medicament.imageFileName != null}" th:src="@{/images/{imageFileName}(imageFileName=${medicament.imageFileName})}" alt="Image" width="100"/>
+    </div>
+    <div>
+        <button type="submit">Save</button>
+    </div>
+</form>
+</body>
+</html>
