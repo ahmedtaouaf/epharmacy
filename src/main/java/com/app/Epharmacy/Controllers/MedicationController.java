@@ -33,16 +33,7 @@ public class MedicationController {
         return "list";
     }
 
-    @GetMapping("/{id}")
-    public String getMedicationById(@PathVariable Long id, Model model) {
-        Optional<Medicament> medication = medicationService.getMedicationById(id);
-        if (medication.isPresent()) {
-            model.addAttribute("medication", medication.get());
-            return "medications/detail";
-        } else {
-            return "redirect:/medications";
-        }
-    }
+
 
     @GetMapping("/new")
     public String showAddMedicationForm(Model model) {
@@ -50,7 +41,7 @@ public class MedicationController {
         return "form";
     }
 
-    @PostMapping
+    @PostMapping("/addmedication")
     public String addMedication(@ModelAttribute Medicament medicament, @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
         if (!imageFile.isEmpty()) {
             try {
