@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Map with Position</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+<h1>Map with Your Position</h1>
+<div id="map" style="height: 400px;"></div>
+
+<script th:inline="javascript">
+    // Initialize map
+    var map = L.map('map');
+
+    // Add tile layer (e.g., OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Get user's current position
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            // Set map view to user's position
+            map.setView([latitude, longitude], 13);
+
+            // Add marker for user's position
+            var marker = L.marker([latitude, longitude]).addTo(map)
+                .bindPopup('Your Position').openPopup();
+
+            // Allow user to click on the map to drop the marker
+            map.on('click', function(e) {
+                // Remove existing marker
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                // Add new marker at clicked location
+                marker = L.marker(e.latlng).addTo(map);
+            });
+        });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+</script>
+</body>
+</html>

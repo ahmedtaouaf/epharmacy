@@ -41,6 +41,10 @@
 
     <div class="site-section">
       <div class="container">
+        <div th:if="${ajouterPanier}" class="alert alert-success" role="alert">
+          <i class="dripicons-checkmark me-2"></i>
+          <strong th:text="${ajouterPanier}"></strong>
+        </div>
         <div class="row">
           <div class="col-md-5 mr-auto">
             <div class="border text-center">
@@ -71,8 +75,9 @@
               </div>
     
             </div>
+
             <form th:action="@{/medicaments/{id}/add-to-cart(id=${medication.id})}" method="post">
-              <button type="submit" th:disabled="${isInCart}">Add to Cart</button>
+              <button class="btn-primary" type="submit" th:disabled="${isInCart}">Add to Cart</button>
             </form>
 
 
@@ -88,6 +93,7 @@
                 </li>
             
               </ul>
+
               <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                   <table class="table custom-table">

@@ -10,15 +10,15 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Controller
-public class CartController {
-    private final CartService cartService;
+public class PaiementController {
 
-    public CartController(CartService cartService) {
+    private final CartService cartService;
+    public PaiementController( CartService cartService) {
         this.cartService = cartService;
     }
 
-    @GetMapping("/cart")
-    public String viewCart(Model model) {
+    @GetMapping("/checkout")
+    public String paiementPage(Model model){
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
         // Calculate subtotal and total
@@ -31,8 +31,10 @@ public class CartController {
         model.addAttribute("total", total);
         model.addAttribute("cartItems", cartService.getCartItems());
         model.addAttribute("cartSize", cartSize);
-        return "cart";
+
+        return "checkout";
     }
+
     private BigDecimal calculateSubtotal(Map<Long, Medicament> cartItems) {
 
         BigDecimal subtotal = BigDecimal.ZERO;
@@ -46,4 +48,18 @@ public class CartController {
 
         return subtotal;
     }
+
+    @GetMapping("/position")
+    public String positionPage(Model model){
+
+
+        return "position";
+    }
+    @GetMapping("/positiontest")
+    public String positionPagetest(Model model){
+
+
+        return "positiontest";
+    }
+
 }

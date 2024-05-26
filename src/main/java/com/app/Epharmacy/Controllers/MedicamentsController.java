@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -28,6 +29,9 @@ public class MedicamentsController {
 
     @GetMapping("/medicaments")
     public String medicamentpage(Model model){
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        model.addAttribute("cartSize", cartSize);
         List<Medicament> medicaments = medicationService.getAllMedications();
         model.addAttribute("medications", medicaments);
         return "shop";
@@ -35,6 +39,10 @@ public class MedicamentsController {
 
     @GetMapping("/medicaments/{id}")
     public String getMedicationById(@PathVariable Long id, Model model) {
+
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        model.addAttribute("cartSize", cartSize);
         Optional<Medicament> medication = medicationService.getMedicationById(id);
         if (medication.isPresent()) {
             model.addAttribute("medication", medication.get());
@@ -50,9 +58,15 @@ public class MedicamentsController {
         Optional<Medicament> medication = medicationService.getMedicationById(id);
         if (medication.isPresent()) {
             cartService.addToCart(medication.get());
-            redirectAttributes.addFlashAttribute("successMessage", "Medicament added to cart!");
+            redirectAttributes.addFlashAttribute("ajouterPanier", "Medicament bien ajouté au panier!");
         }
         return "redirect:/medicaments/" + id;
+    }
+    @PostMapping("/cart/remove/{id}")
+    public String removeFromCart(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        cartService.removeFromCart(id);
+        redirectAttributes.addFlashAttribute("supprimerPanier", "Medicament bien supprimé du panier!");
+        return "redirect:/cart";
     }
 
 }

@@ -21,4 +21,7 @@ public class CartService {
     public Map<Long, Medicament> getCartItems() {
         return cart;
     }
+    public void removeFromCart(Long id) {
+        cart.remove(id);
+    }
 }
