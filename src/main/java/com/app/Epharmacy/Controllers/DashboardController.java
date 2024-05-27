@@ -32,5 +32,28 @@ public class DashboardController {
         return "login";
     }
 
+    @GetMapping("/apropos")
+    public String aPropos(Model model) {
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        model.addAttribute("cartSize", cartSize);
+        return "about";
+    }
+    @GetMapping("/contact")
+    public String contactPage(Model model) {
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        model.addAttribute("cartSize", cartSize);
+        return "contact";
+    }
+
+    @GetMapping("/thankyou")
+    public String thankyouPage(Model model) {
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        model.addAttribute("cartSize", cartSize);
+        return "thankyou";
+    }
+
 
 }
