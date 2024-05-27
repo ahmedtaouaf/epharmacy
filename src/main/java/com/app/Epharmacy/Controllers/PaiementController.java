@@ -67,11 +67,6 @@ public class PaiementController {
         model.addAttribute("pharmacies", pharmacies);
         return "position";
     }
-    @GetMapping("/positiontest")
-    public String positionPagetest(Model model){
 
-
-        return "positiontest";
-    }
 
 }
