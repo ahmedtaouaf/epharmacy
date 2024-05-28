@@ -7,6 +7,8 @@ import com.app.Epharmacy.Services.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -63,9 +65,22 @@ public class PaiementController {
 
     @GetMapping("/position")
     public String positionPage(Model model){
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
         List<Pharmacie> pharmacies = pharmacieRepository.findAll();
+        model.addAttribute("cartSize", cartSize);
         model.addAttribute("pharmacies", pharmacies);
         return "position";
+    }
+    @PostMapping("/confirm")
+    public String confirmClosestPharmacy(@RequestParam("pharmacyId") Long pharmacyId, Model model) {
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        cartItems.clear();
+        Pharmacie pharmacy = pharmacieRepository.findById(pharmacyId).orElse(null);
+        model.addAttribute("pharmacy", pharmacy);
+        model.addAttribute("cartSize", cartSize);
+        return "thankyou";
     }
 
 

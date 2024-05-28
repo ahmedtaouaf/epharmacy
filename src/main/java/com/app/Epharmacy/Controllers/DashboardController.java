@@ -47,13 +47,8 @@ public class DashboardController {
         return "contact";
     }
 
-    @GetMapping("/thankyou")
-    public String thankyouPage(Model model) {
-        Map<Long, Medicament> cartItems = cartService.getCartItems();
-        int cartSize = cartItems.size();
-        model.addAttribute("cartSize", cartSize);
-        return "thankyou";
-    }
+
+
 
 
 }

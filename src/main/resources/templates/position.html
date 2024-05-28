@@ -37,7 +37,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                        class="text-black">Thank You</strong></div>
+                        class="text-black">Localisation</strong></div>
             </div>
         </div>
     </div>
@@ -64,7 +64,16 @@
                 <div class="col-md-6 mb-5 mb-md-0">
                     <div class="p-3 p-lg-5 border">
                         <div class="form-group row">
-                            <div id="closest-pharmacy1" class="col-md-12"></div>
+                            <div class="form-check">
+                                <form th:action="@{/confirm}" method="post">
+                                    <input type="hidden" name="pharmacyId" id="pharmacyId">
+                                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Je confirme que j'ai bien précisé ma localisation
+                                    </label>
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Confirmer</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,7 +156,7 @@
         <input class="form-control text-center" type="text" value="${closestPharmacy.fix}" readonly>
     </p>
 `;
-
+            document.getElementById('pharmacyId').value = closestPharmacy.id;
             // Remove existing route
             if (routeControl) {
                 map.removeControl(routeControl);
