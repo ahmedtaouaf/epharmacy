@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class OrderItem {
+public class Commandeart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Commande commande;
 
     private Long medicamentId;
 

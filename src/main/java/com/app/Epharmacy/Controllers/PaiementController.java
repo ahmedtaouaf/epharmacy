@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -101,11 +99,11 @@ public class PaiementController {
             clientInfo.setEmail(email);
             clientInfoRepository.save(clientInfo);
 
-            Order order = new Order();
-            order.setClientInfo(clientInfo);
-            order.setPharmacie(pharmacie);
-            order.setOrderDate(new Date());
-            orderRepository.save(order);
+            Commande commande = new Commande();
+            commande.setClientInfo(clientInfo);
+            commande.setPharmacie(pharmacie);
+            commande.setOrderDate(new Date());
+            orderRepository.save(commande);
 
             Map<Long, Medicament> cartItems = cartService.getCartItems();
 
@@ -113,11 +111,11 @@ public class PaiementController {
             for (Map.Entry<Long, Medicament> entry : cartItems.entrySet()) {
                 Medicament medicament = entry.getValue();
 
-                OrderItem orderItem = new OrderItem();
-                orderItem.setOrder(order);
-                orderItem.setMedicamentId(medicament.getId());
+                Commandeart commandeart = new Commandeart();
+                commandeart.setCommande(commande);
+                commandeart.setMedicamentId(medicament.getId());
 
-                orderItemRepository.save(orderItem);
+                orderItemRepository.save(commandeart);
             }
 
             cartItems.clear();

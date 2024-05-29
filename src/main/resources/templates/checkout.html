@@ -46,46 +46,26 @@
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Informations personnelles</h2>
             <div class="p-3 p-lg-5 border">
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="c_fname" class="text-black">Prénom <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="c_lname" class="text-black">Nom <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname" required>
-                </div>
-              </div>
-
-    
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">Adresse <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Adresse..." required>
-                </div>
-              </div>
-    
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)" required>
-              </div>
-    
-              <div class="form-group row mb-5">
-                <div class="col-md-6">
-                  <label for="c_email_address" class="text-black">Adresse Email <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number" required>
-                </div>
-              </div>
-
-    
-              <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
-                  placeholder="Write your notes here..."></textarea>
-              </div>
+              <table class="table site-block-commande-table mb-5">
+                <thead>
+                <th>Produit</th>
+                <th>Total</th>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${cartItems}">
+                  <td th:text="${entry.value.name}"> <strong class="mx-2">x</strong> 1</td>
+                  <td th:text="${entry.value.price}"></td>
+                </tr>
+                <tr>
+                  <td class="text-black font-weight-bold"><strong>Panier Subtotal</strong></td>
+                  <td class="text-black" th:text="${subtotal}"></td>
+                </tr>
+                <tr>
+                  <td class="text-black font-weight-bold"><strong>Total commande</strong></td>
+                  <td class="text-black font-weight-bold" th:text="${total}"><strong></strong></td>
+                </tr>
+                </tbody>
+              </table>
     
             </div>
           </div>
@@ -95,59 +75,15 @@
               <div class="col-md-12">
                 <h2 class="h3 mb-3 text-black">Votre commande</h2>
                 <div class="p-3 p-lg-5 border">
-                  <table class="table site-block-order-table mb-5">
-                    <thead>
-                      <th>Product</th>
-                      <th>Total</th>
-                    </thead>
-                    <tbody>
-                      <tr th:each="entry : ${cartItems}">
-                        <td th:text="${entry.value.name}"> <strong class="mx-2">x</strong> 1</td>
-                        <td th:text="${entry.value.price}"></td>
-                      </tr>
-                      <tr>
-                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black" th:text="${subtotal}"></td>
-                      </tr>
-                      <tr>
-                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold" th:text="${total}"><strong></strong></td>
-                      </tr>
-                    </tbody>
-                  </table>
+
     
                   <div class="border mb-3">
                     <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
-                        aria-expanded="false" aria-controls="collapsebank">à payer sur place à l'hôtel</a></h3>
+                        aria-expanded="false" aria-controls="collapsebank">à payer sur place à la pharmacie</a></h3>
     
                     <div class="collapse" id="collapsebank">
                       <div class="py-2 px-4">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="border mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button"
-                        aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-    
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2 px-4">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-    
-                  <div class="border mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button"
-                        aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-    
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2 px-4">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                          payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        <p class="mb-0">Le mode de paiement "à payer sur place" vous permet de régler vos achats directement à la livraison. Lors de la réception de votre commande, vous pouvez payer en espèces ou par carte bancaire. Ce mode de paiement est simple et sécurisé, sans frais supplémentaires.</p>
                       </div>
                     </div>
                   </div>

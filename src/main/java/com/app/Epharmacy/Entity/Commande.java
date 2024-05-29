@@ -8,8 +8,8 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "`order`")
-public class Order {
+@Table(name = "`commande`")
+public class Commande {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,8 @@ public class Order {
 
     private Date orderDate;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
+    private List<Commandeart> commandearts;
 
 
 }
