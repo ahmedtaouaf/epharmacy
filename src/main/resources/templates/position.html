@@ -8,29 +8,21 @@
 
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
     <link rel="stylesheet" href="fonts/icomoon/style.css">
-
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
-
     <link rel="stylesheet" href="css/aos.css">
-
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
 </head>
 
 <body>
-
 <div class="site-wrap">
-
-
     <div th:replace="shared/header :: header"></div>
 
     <div class="bg-light py-3">
@@ -48,45 +40,73 @@
                 <div class="col-md-12 text-center">
                     <div id="map" style="height: 500px;"></div>
                 </div>
-
-
             </div>
         </div>
+
         <div class="container">
             <div class="row mt-3">
-            <div class="col-md-6 mb-5 mb-md-0">
-                <div class="p-3 p-lg-5 border">
-                    <div class="form-group row">
-                            <div id="closest-pharmacy" class="col-md-12"></div>
-                    </div>
-                </div>
-            </div>
                 <div class="col-md-6 mb-5 mb-md-0">
                     <div class="p-3 p-lg-5 border">
                         <div class="form-group row">
-                            <div class="form-check">
-                                <form th:action="@{/confirm}" method="post">
+                            <div id="closest-pharmacy" class="col-md-12"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-5 mb-md-0">
+                    <div class="p-3 p-lg-5 border">
+                        <form th:action="@{/confirm}" method="post">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="firstName" class="text-black">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="lastName" class="text-black">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="address" class="text-black">Address <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="address" name="address" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="phone" name="phone" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="email" class="text-black">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-check">
                                     <input type="hidden" name="pharmacyId" id="pharmacyId">
                                     <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" required>
                                     <label class="form-check-label" for="defaultCheck1">
-                                        Je confirme que j'ai bien précisé ma localisation
+                                        I confirm my location
                                     </label>
-                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Confirmer</button>
-                                </form>
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Confirm</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
-
 
     <div th:replace="shared/footer :: footer"></div>
 </div>
+
 <script th:inline="javascript">
     // Initialize map
     var map = L.map('map');
@@ -222,6 +242,7 @@
         alert("Geolocation is not supported by this browser.");
     }
 </script>
+
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/jquery-ui.js"></script>
 <script src="js/popper.min.js"></script>
@@ -229,9 +250,7 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/jquery.magnific-popup.min.js"></script>
 <script src="js/aos.js"></script>
-
 <script src="js/main.js"></script>
-
 </body>
 
 </html>

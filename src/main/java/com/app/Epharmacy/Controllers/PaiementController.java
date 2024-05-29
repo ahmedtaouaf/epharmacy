@@ -1,7 +1,9 @@
 package com.app.Epharmacy.Controllers;
 
-import com.app.Epharmacy.Entity.Medicament;
-import com.app.Epharmacy.Entity.Pharmacie;
+import com.app.Epharmacy.Entity.*;
+import com.app.Epharmacy.Repository.ClientInfoRepository;
+import com.app.Epharmacy.Repository.OrderItemRepository;
+import com.app.Epharmacy.Repository.OrderRepository;
 import com.app.Epharmacy.Repository.PharmacieRepository;
 import com.app.Epharmacy.Services.CartService;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +24,15 @@ public class PaiementController {
 
     private final CartService cartService;
     private final PharmacieRepository pharmacieRepository;
-    public PaiementController( CartService cartService, PharmacieRepository pharmacieRepository) {
+    private final ClientInfoRepository clientInfoRepository;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
         this.cartService = cartService;
         this.pharmacieRepository = pharmacieRepository;
+        this.clientInfoRepository = clientInfoRepository;
+        this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @GetMapping("/checkout")
@@ -61,9 +71,68 @@ public class PaiementController {
         return subtotal;
     }
 
+    @Controller
+    public class OrderController {
+
+        @GetMapping("/position")
+        public String positionPage(Model model) {
+            model.addAttribute("pharmacies", pharmacieRepository.findAll());
+            return "position";
+        }
+
+        @PostMapping("/confirm")
+        public String confirmOrder(Model model, @RequestParam String firstName,
+                                   @RequestParam String lastName,
+                                   @RequestParam String address,
+                                   @RequestParam String phone,
+                                   @RequestParam String email,
+                                   @RequestParam Long pharmacyId) {
+
+            Pharmacie pharmacie = pharmacieRepository.findById(pharmacyId).orElse(null);
+            if (pharmacie == null) {
+                return "redirect:/position";
+            }
+
+            ClientInfo clientInfo = new ClientInfo();
+            clientInfo.setFirstName(firstName);
+            clientInfo.setLastName(lastName);
+            clientInfo.setAddress(address);
+            clientInfo.setPhone(phone);
+            clientInfo.setEmail(email);
+            clientInfoRepository.save(clientInfo);
+
+            Order order = new Order();
+            order.setClientInfo(clientInfo);
+            order.setPharmacie(pharmacie);
+            order.setOrderDate(new Date());
+            orderRepository.save(order);
+
+            Map<Long, Medicament> cartItems = cartService.getCartItems();
 
 
-    @GetMapping("/position")
+            for (Map.Entry<Long, Medicament> entry : cartItems.entrySet()) {
+                Medicament medicament = entry.getValue();
+
+                OrderItem orderItem = new OrderItem();
+                orderItem.setOrder(order);
+                orderItem.setMedicamentId(medicament.getId());
+
+                orderItemRepository.save(orderItem);
+            }
+
+            cartItems.clear();
+
+            model.addAttribute("pharmacie", pharmacie);
+
+            return "thankyou";
+        }
+
+
+    }
+
+
+
+    /*@GetMapping("/position")
     public String positionPage(Model model){
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
@@ -81,7 +150,7 @@ public class PaiementController {
         model.addAttribute("pharmacy", pharmacy);
         model.addAttribute("cartSize", cartSize);
         return "thankyou";
-    }
+    }*/
 
 
 }
