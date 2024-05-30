@@ -3,6 +3,7 @@ package com.app.Epharmacy.Entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private BigDecimal total;
+    private int nbrproduit;
+    private boolean status ;
 
     @ManyToOne
     @JoinColumn(name = "client_info_id")

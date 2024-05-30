@@ -74,7 +74,19 @@ public class PaiementController {
 
         @GetMapping("/position")
         public String positionPage(Model model) {
+            Map<Long, Medicament> cartItems = cartService.getCartItems();
+            int cartSize = cartItems.size();
+            BigDecimal subtotal = calculateSubtotal(cartItems);
+            BigDecimal total = calculateTotal(subtotal);
+            System.out.println(total);
+            System.out.println(cartSize);
+
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("subtotal", subtotal);
+            model.addAttribute("total", total);
+            model.addAttribute("cartSize", cartSize);
             model.addAttribute("pharmacies", pharmacieRepository.findAll());
+
             return "position";
         }
 
@@ -99,13 +111,21 @@ public class PaiementController {
             clientInfo.setEmail(email);
             clientInfoRepository.save(clientInfo);
 
+            Map<Long, Medicament> cartItems = cartService.getCartItems();
+            int cartSize = cartItems.size();
+            // Calculate subtotal and total
+            BigDecimal subtotal = calculateSubtotal(cartItems);
+            BigDecimal total = calculateTotal(subtotal);
+
             Commande commande = new Commande();
             commande.setClientInfo(clientInfo);
             commande.setPharmacie(pharmacie);
             commande.setOrderDate(new Date());
+            commande.setTotal(total);
+            commande.setNbrproduit(cartSize);
+            commande.setStatus(false);
             orderRepository.save(commande);
 
-            Map<Long, Medicament> cartItems = cartService.getCartItems();
 
 
             for (Map.Entry<Long, Medicament> entry : cartItems.entrySet()) {
@@ -121,6 +141,10 @@ public class PaiementController {
             cartItems.clear();
 
             model.addAttribute("pharmacie", pharmacie);
+            model.addAttribute("cartItems", cartItems);
+            model.addAttribute("subtotal", subtotal);
+            model.addAttribute("total", total);
+            model.addAttribute("cartSize", cartSize);
 
             return "thankyou";
         }

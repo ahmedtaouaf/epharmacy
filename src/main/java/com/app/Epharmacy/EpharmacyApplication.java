@@ -1,12 +1,22 @@
 package com.app.Epharmacy;
 
 
+import com.app.Epharmacy.Entity.Commande;
+import com.app.Epharmacy.Repository.CommandeRepository;
+import com.app.Epharmacy.Services.CommandeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Collections;
+import java.util.List;
+
 @SpringBootApplication
 public class EpharmacyApplication implements CommandLineRunner {
+
+
+
 
     public static void main(String[] args) {
 
@@ -16,14 +26,6 @@ public class EpharmacyApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       /* Posseder posseder = possederRepository.getLastDiplome("M","70a7dfc9-8492-4047-ba7f-8e4da8c58924");
-        Militaire militaire = militaireRepository.findMilitaireById("70a7dfc9-8492-4047-ba7f-8e4da8c58924");
-        militaire.setDiplomeMilitaire(posseder.getDiplome());
-        diplomeService.attribuerDiplome("70a7dfc9-8492-4047-ba7f-8e4da8c58924",Long.valueOf(8000) , Long.valueOf(2), Long.valueOf(45), null, null);
-        militaireService.updateDiplomeMilitaire("70a7dfc9-8492-4047-ba7f-8e4da8c58924");
-        System.out.println(militaire.getDiplomeMilitaire());
-
-        */
 
 
 
