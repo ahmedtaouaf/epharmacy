@@ -1,0 +1,103 @@
+<div th:fragment="sidemenu">
+<div class="leftside-menu">
+
+    <!-- LOGO -->
+    <a href="index.html" class="logo text-center logo-light">
+                    <span class="logo-lg">
+                        <img src="/assets/images/logo.png" alt="" height="16">
+                    </span>
+        <span class="logo-sm">
+                        <img src="/assets/images/logo_sm.png" alt="" height="16">
+                    </span>
+    </a>
+
+    <!-- LOGO -->
+    <a href="index.html" class="logo text-center logo-dark">
+                    <span class="logo-lg">
+                        <img src="/assets/images/logo-dark.png" alt="" height="16">
+                    </span>
+        <span class="logo-sm">
+                        <img src="/assets/images/logo_sm_dark.png" alt="" height="16">
+                    </span>
+    </a>
+
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+
+        <!--- Sidemenu -->
+        <ul class="side-nav">
+
+            <li class="side-nav-title side-nav-item">Navigation</li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                    <i class="uil-home-alt"></i>
+                    <span> Dashboards </span>
+                </a>
+            </li>
+
+            <li class="side-nav-title side-nav-item">Management</li>
+
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link">
+                    <i class="uil-store"></i>
+                    <span> Gestion Commandes </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarEcommerce">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-ecommerce-products.html">Products</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-products-details.html">Products Details</a>
+                        </li>
+                        <li>
+                            <a href="admin-orders.html">Orders</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-orders-details.html">Order Details</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-customers.html">Customers</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-shopping-cart.html">Shopping Cart</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-checkout.html">Checkout</a>
+                        </li>
+                        <li>
+                            <a href="apps-ecommerce-sellers.html">Sellers</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+                    <i class="uil-envelope"></i>
+                    <span> Gestion Stock </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="sidebarEmail">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="apps-email-inbox.html">Inbox</a>
+                        </li>
+                        <li>
+                            <a href="apps-email-read.html">Read Email</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <!-- End Sidebar -->
+
+        <div class="clearfix"></div>
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>
+</div>

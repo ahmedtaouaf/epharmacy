@@ -15,8 +15,7 @@ import java.util.List;
 
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
 
-    @Query("SELECT c.clientInfo, ca FROM Commande c JOIN c.commandearts ca WHERE c.id = :commandeId")
-    List<Object[]> findClientInfoAndItemsByCommandeId(@Param("commandeId") Long commandeId);
+
 
 }
 

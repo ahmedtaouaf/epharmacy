@@ -9,11 +9,8 @@ import java.util.List;
 @Service
 public class CommandeService {
 
-    @Autowired
-    private CommandeRepository commandeRepository;
 
-    public List<Object[]> getClientInfoAndItems(Long commandeId) {
-        return commandeRepository.findClientInfoAndItemsByCommandeId(commandeId);
-    }
+
+
 }
 
