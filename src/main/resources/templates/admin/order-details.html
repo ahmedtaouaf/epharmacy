@@ -72,7 +72,10 @@
                                         </thead>
                                         <tbody>
                                         <tr th:each="medication : ${medications}">
-                                            <td th:text="${medication.name}"></td>
+                                            <td class="table-user">
+                                                <img th:src="@{/images/{imageFileName}(imageFileName=${medication.imageFileName})}" alt="table-user" class="me-2 rounded-circle">
+                                                <a href="#" th:text="${medication.name}" class="text-body fw-semibold"></a>
+                                            </td>
                                             <td>1</td>
                                             <td th:text="${medication.price}"></td>
                                             <td th:text="${medication.price}"></td>

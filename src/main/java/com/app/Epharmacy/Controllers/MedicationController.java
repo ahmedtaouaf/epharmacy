@@ -28,8 +28,7 @@ public class MedicationController {
 
     @GetMapping("medications")
     public String getAllMedications(Model model) {
-        List<Medicament> medicaments = medicationService.getAllMedications();
-        model.addAttribute("medications", medicaments);
+
         return "list";
     }
 

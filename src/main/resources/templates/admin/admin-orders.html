@@ -102,9 +102,7 @@
                                                     </td>
                                                     <td>
                                                         <a th:href="@{'/admin/commandes/' + ${commande.id} + '/details'}" class="btn btn-info">Commande Details</a>
-                                                        <a th:href="@{/admin/commandes/{id}/confirm(id=${commande.id})}" class="btn btn-warning" th:if="${not commande.status}">Confirmer</a>
-
-
+                                                        <a th:href="@{'/admin/commandes/' + ${commande.id} + '/confirm'}" class="btn btn-warning" th:if="${not commande.status}">Confirmer</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>
