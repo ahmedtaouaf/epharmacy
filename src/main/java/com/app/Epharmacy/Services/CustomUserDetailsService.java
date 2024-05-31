@@ -1,8 +1,6 @@
 package com.app.Epharmacy.Services;
 
-import com.app.Epharmacy.Entity.CustomUserDetails;
-import com.app.Epharmacy.Entity.Login;
-import com.app.Epharmacy.Repository.LoginRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.User;
@@ -16,8 +14,6 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private LoginRepo loginRepo;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

@@ -27,7 +27,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
             if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                return "/contact";
+                return "/admin/commandes";
             } else if (authority.getAuthority().equals("ROLE_USER")) {
                 return "/medicaments";
             }

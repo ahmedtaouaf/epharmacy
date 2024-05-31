@@ -1,27 +1,143 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Add/Edit Medication</title>
-</head>
-<body>
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<form th:action="@{/addmedicamenet}" th:method="post" enctype="multipart/form-data">
-    <div>
-        <label>Name:</label>
-        <input type="text" th:field="*{medication.name}" required/>
+<!-- Mirrored from coderthemes.com/hyper/saas/admin-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:20:59 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>Orders | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<!-- Begin page -->
+<div class="wrapper">
+    <!-- ========== Left Sidebar Start ========== -->
+    <div th:replace="shared/admin/sidemenu :: sidemenu"></div>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+            <!-- Topbar Start -->
+            <div th:replace="shared/admin/topbar :: topbar"></div>
+            <!-- end Topbar -->
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Management</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Commandes</a></li>
+                                    <li class="breadcrumb-item active">Liste</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">Orders</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div th:if="${produitAdd}" class="alert alert-success" role="alert">
+                                    <i class="dripicons-checkmark me-2"></i>
+                                    <strong th:text="${produitAdd}"></strong>
+                                </div>
+                                    <form th:action="@{/addmedicamenet}" th:method="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label  class="form-label">Nom Médicament</label>
+                                                <input type="text" th:field="*{medication.name}" required class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="example-textarea" class="form-label">Description</label>
+                                                <textarea class="form-control" th:field="*{medication.description}" required id="example-textarea" rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="example-number" class="form-label">Prix</label>
+                                                <input class="form-control" th:field="*{medication.price}" required id="example-number" type="number" name="number">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Médicament Image</label>
+                                                <input name="imageFile" class="form-control" type="file" id="inputGroupFile04">
+                                                <img th:if="${medication.imageFileName != null}" th:src="@{/images/{imageFileName}(imageFileName=${medication.imageFileName})}" alt="Image" width="100"/>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 20px; text-align: right;">
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                        </div>
+                                    </div>
+                                    </form>
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- container -->
+
+        </div> <!-- content -->
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-md-end footer-links d-none d-md-block">
+                            <a href="javascript: void(0);">About</a>
+                            <a href="javascript: void(0);">Support</a>
+                            <a href="javascript: void(0);">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
     </div>
-    <div>
-        <label>Description:</label>
-        <input type="text" th:field="*{medication.description}" required/>
-    </div>
-    <div>
-        <label>Image:</label>
-        <input type="file" name="imageFile"/>
-        <img th:if="${medication.imageFileName != null}" th:src="@{/images/{imageFileName}(imageFileName=${medication.imageFileName})}" alt="Image" width="100"/>
-    </div>
-    <div>
-        <button type="submit">Save</button>
-    </div>
-</form>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- bundle -->
+<script src="/assets/js/vendor.min.js"></script>
+<script src="/assets/js/app.min.js"></script>
+
 </body>
+
+
+
+
+<!-- Mirrored from coderthemes.com/hyper/saas/admin-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:20:59 GMT -->
 </html>

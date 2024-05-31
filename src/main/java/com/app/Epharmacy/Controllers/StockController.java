@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,7 +25,7 @@ public class StockController {
 
     @Autowired
     private MedicationService medicationService;
-    private final Path imageStoragePath = Paths.get("src/main/resources/static/images");
+    private final Path imageStoragePath = Paths.get("src/main/resources/static/images").toAbsolutePath();
 
     @GetMapping("/admin/stocklist")
     public String stockliste(Model model){
@@ -35,7 +36,7 @@ public class StockController {
         return "admin/stock-produits";
     }
 
-    @GetMapping("/admin/addproduit")
+    @GetMapping("/admin/stock-addproduit")
     public String showAddMedicationForm(Model model) {
         model.addAttribute("medication", new Medicament());
         return "/admin/stock-addproduit";
@@ -45,17 +46,21 @@ public class StockController {
     public String addMedication(@ModelAttribute Medicament medicament, @RequestParam("imageFile") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
         if (!imageFile.isEmpty()) {
             try {
+                Files.createDirectories(imageStoragePath);
+
                 String imageFileName = imageFile.getOriginalFilename();
-                imageFile.transferTo(new File(imageStoragePath.resolve(imageFileName).toString()));
+                Path targetLocation = imageStoragePath.resolve(imageFileName);
+                imageFile.transferTo(targetLocation.toFile());
                 medicament.setImageFileName(imageFileName);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Handle the exception
             }
         }
         medicationService.addMedication(medicament);
-        return "redirect:/shop";
+        redirectAttributes.addFlashAttribute("produitAdd", "Médicament ajouté avec succès au stock !");
+        return "redirect:/admin/stock-addproduit";
     }
+
 
 
 
