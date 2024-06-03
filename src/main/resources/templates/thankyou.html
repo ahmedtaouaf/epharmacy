@@ -54,6 +54,10 @@
             <p><a href="/medicaments" class="btn btn-md height-auto px-4 py-3 btn-primary">Continuer vos achats</a></p>
           </div>
         </div>
+        <form th:action="@{/downloadInvoice}" method="get">
+          <input type="hidden" name="orderId" th:value="${commande.id}" />
+          <button type="submit">Download Invoice</button>
+        </form>
       </div>
     </div>
 

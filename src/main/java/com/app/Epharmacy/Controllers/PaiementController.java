@@ -138,13 +138,16 @@ public class PaiementController {
                 orderItemRepository.save(commandeart);
             }
 
-            cartItems.clear();
+            System.out.println(commande.getId());
+
+            //cartItems.clear();
 
             model.addAttribute("pharmacie", pharmacie);
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("subtotal", subtotal);
             model.addAttribute("total", total);
             model.addAttribute("cartSize", cartSize);
+            model.addAttribute("commande", commande);
 
             return "thankyou";
         }
