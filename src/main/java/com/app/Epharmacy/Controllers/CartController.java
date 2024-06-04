@@ -22,7 +22,7 @@ public class CartController {
     public String viewCart(Model model, RedirectAttributes redirectAttributes) {
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
-        // Calculate subtotal and total
+
         BigDecimal subtotal = calculateSubtotal(cartItems);
         BigDecimal total = calculateTotal(subtotal);
 

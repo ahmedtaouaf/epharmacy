@@ -78,8 +78,6 @@ public class PaiementController {
             int cartSize = cartItems.size();
             BigDecimal subtotal = calculateSubtotal(cartItems);
             BigDecimal total = calculateTotal(subtotal);
-            System.out.println(total);
-            System.out.println(cartSize);
 
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("subtotal", subtotal);

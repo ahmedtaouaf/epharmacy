@@ -19,24 +19,7 @@
   <link rel="stylesheet" href="css/aos.css">
 
   <link rel="stylesheet" href="css/style.css">
-  <script>
-    function removeFromCart(itemId) {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = `/cart/remove/${itemId}`;
-      form.style.display = 'none';
 
-      const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-      const csrfInput = document.createElement('input');
-      csrfInput.type = 'hidden';
-      csrfInput.name = '_csrf';
-      csrfInput.value = csrfToken;
-      form.appendChild(csrfInput);
-
-      document.body.appendChild(form);
-      form.submit();
-    }
-  </script>
 </head>
 
 <body>
@@ -180,6 +163,17 @@
 <script src="js/aos.js"></script>
 
 <script src="js/main.js"></script>
+<script>
+  function removeFromCart(itemId) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/cart/remove/${itemId}`;
+    form.style.display = 'none';
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
 
 </body>
 

@@ -41,23 +41,29 @@
     <div class="site-section">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 text-center">
+          <div class="col-md-6 text-center">
             <span class="icon-check_circle display-3 text-success"></span>
             <h2 class="display-3 text-black">Merci !</h2>
-            <p class="lead mb-5">Votre commande est bien reçu par la pharmacie la plus proche de votre localisation.</p>
-
-            <label class="text-black font-weight-bold">Nom :</label> <p class="text-black" th:text="${pharmacie.nom}"></p>
-            <label class="text-black font-weight-bold">Adresse :</label><p class="text-black" th:text="${pharmacie.adresse}"></p>
-            <label class="text-black font-weight-bold">Téléphone :</label><p class="text-black" th:text="${pharmacie.telephone}"></p>
-            <label class="text-black font-weight-bold">Fix :</label><p class="text-black" th:text="${pharmacie.fix}"></p>
-
-            <p><a href="/medicaments" class="btn btn-md height-auto px-4 py-3 btn-primary">Continuer vos achats</a></p>
+            <p class="lead mb-5">Votre commande est bien reçue par la pharmacie la plus proche de votre localisation.</p>
+          </div>
+          <div class="col-md-6">
+            <label class="text-black font-weight-bold">Nom :</label>
+            <p class="text-black" th:text="${pharmacie.nom}"></p>
+            <label class="text-black font-weight-bold">Adresse :</label>
+            <p class="text-black" th:text="${pharmacie.adresse}"></p>
+            <label class="text-black font-weight-bold">Téléphone :</label>
+            <p class="text-black" th:text="${pharmacie.telephone}"></p>
+            <label class="text-black font-weight-bold">Fix :</label>
+            <p class="text-black" th:text="${pharmacie.fix}"></p>
+            <div class="d-flex justify-content-between">
+              <a href="/medicaments" class="btn btn-md height-auto px-4 py-3 btn-primary">Continuer vos achats</a>
+              <form th:action="@{/downloadInvoice}" method="get" class="mb-0">
+                <input type="hidden" name="orderId" th:value="${commande.id}" />
+                <button class="btn btn-md height-auto px-4 py-3 btn-primary" type="submit">Reçu Commande</button>
+              </form>
+            </div>
           </div>
         </div>
-        <form th:action="@{/downloadInvoice}" method="get">
-          <input type="hidden" name="orderId" th:value="${commande.id}" />
-          <button type="submit">Download Invoice</button>
-        </form>
       </div>
     </div>
 

@@ -104,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js**")
                 .antMatchers("/admin/**")
                 .antMatchers("/webjars/**")
+                .antMatchers("/fonts/**")
                 .antMatchers("/templates/**");
     }
 }

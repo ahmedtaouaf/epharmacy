@@ -51,7 +51,7 @@ public class PdfController {
         byte[] pdfBytes = pdfService.generateInvoice(clientInfo, pharmacie, commande, cartItems);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice.pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + commande.getId() + "CommandeReçu.pdf\"")
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdfBytes);
     }
