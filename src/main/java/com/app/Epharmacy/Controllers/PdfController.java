@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
@@ -47,7 +46,7 @@ public class PdfController {
 
         ClientInfo clientInfo = commande.getClientInfo();
         Pharmacie pharmacie = commande.getPharmacie();
-        Map<Long, Medicament> cartItems = cartService.getCartItems(); // Adjust this according to your implementation
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
 
         byte[] pdfBytes = pdfService.generateInvoice(clientInfo, pharmacie, commande, cartItems);
 
