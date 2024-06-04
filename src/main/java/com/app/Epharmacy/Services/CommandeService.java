@@ -9,7 +9,12 @@ import java.util.List;
 @Service
 public class CommandeService {
 
+    @Autowired
+    private CommandeRepository commandeRepository;
 
+    public List<Object[]> getOrderCountByDay() {
+        return commandeRepository.findOrderCountByDay();
+    }
 
 
 }
