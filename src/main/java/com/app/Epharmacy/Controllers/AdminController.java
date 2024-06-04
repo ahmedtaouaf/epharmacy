@@ -63,6 +63,12 @@ public class AdminController {
         return "redirect:/admin/commandes";
     }
 
+    @GetMapping("/admin/dashboard")
+    public String getDashboardPage() {
+
+        return "admin/admin-dashboard";
+    }
+
 
 
 
