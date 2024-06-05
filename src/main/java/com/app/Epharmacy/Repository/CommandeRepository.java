@@ -32,6 +32,22 @@ public interface CommandeRepository extends JpaRepository<Commande, Long> {
             "LIMIT 5", nativeQuery = true)
     List<Object[]> top5medicaments();
 
+    @Query(value = "SELECT p.nom AS name, COUNT(c.id) AS orderCount " +
+            "FROM commande c " +
+            "JOIN pharmacie p ON c.pharmacie_id = p.id " +
+            "GROUP BY p.id " +
+            "ORDER BY orderCount DESC " +
+            "LIMIT 4", nativeQuery = true)
+    List<Object[]> findTop5PharmaciesWithMostOrders();
+
+    @Query(value = "SELECT p.nom AS name, SUM(c.total) AS totalRevenue " +
+            "FROM commande c " +
+            "JOIN pharmacie p ON c.pharmacie_id = p.id " +
+            "GROUP BY p.id " +
+            "ORDER BY totalRevenue DESC " +
+            "LIMIT 4", nativeQuery = true)
+    List<Object[]> findTop4PharmaciesByRevenue();
+
 
 }
 

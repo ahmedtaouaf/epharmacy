@@ -1,28 +1,39 @@
 package com.app.Epharmacy.Controllers;
 
 import com.app.Epharmacy.Entity.Medicament;
+import com.app.Epharmacy.Repository.MedicationRepository;
 import com.app.Epharmacy.Services.CartService;
 import com.app.Epharmacy.Services.MedicationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
 public class DashboardController {
 
     private final CartService cartService;
-    public DashboardController( CartService cartService) {
+    private final MedicationRepository medicationRepository;
+    public DashboardController(CartService cartService, MedicationRepository medicationRepository) {
         this.cartService = cartService;
+        this.medicationRepository = medicationRepository;
     }
 
     @GetMapping("/")
     public String mainpage(Model model){
-
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
+        List<Object[]> listLastmedicaments = medicationRepository.listLastmedicaments();
+        List<Object[]> top6Medicaments = medicationRepository.top6medicaments();
+
         model.addAttribute("cartSize", cartSize);
+        model.addAttribute("listLastmedicaments", listLastmedicaments);
+        model.addAttribute("top6Medicaments", top6Medicaments);
+
+
+
         return "index";
     }
 

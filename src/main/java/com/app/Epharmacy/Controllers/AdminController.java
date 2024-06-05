@@ -77,13 +77,16 @@ public class AdminController {
         List<Object[]> orderCounts = commandeService.getOrderCountByDay();
         model.addAttribute("orderCounts", orderCounts);
         List<Object[]> topMedicaments = commandeRepository.top5medicaments();
-
+        List<Object[]> results = commandeRepository.findTop5PharmaciesWithMostOrders();
+        List<Object[]> topPharmaciesByRevenue = commandeRepository.findTop4PharmaciesByRevenue();
 
         model.addAttribute("nbrClients", nbrClient);
         model.addAttribute("nbrCommandes", nbrCommandes);
         model.addAttribute("totalRevenues", totalRevenues);
         model.addAttribute("nbrproduitsvendus", nbrproduitsvendus);
         model.addAttribute("medicaments", topMedicaments);
+        model.addAttribute("top5Pharmacies", results);
+        model.addAttribute("topPharmaciesByRevenue", topPharmaciesByRevenue);
         return "admin/admin-dashboard";
     }
 
