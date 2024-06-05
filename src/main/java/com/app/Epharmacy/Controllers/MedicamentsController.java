@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.nio.file.Path;
@@ -28,12 +29,19 @@ public class MedicamentsController {
     }
 
     @GetMapping("/medicaments")
-    public String medicamentpage(Model model){
+    public String medicamentPage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
         model.addAttribute("cartSize", cartSize);
-        List<Medicament> medicaments = medicationService.getAllMedications();
-        model.addAttribute("medications", medicaments);
+
+        List<Medicament> medications;
+        if (keyword != null && !keyword.isEmpty()) {
+            medications = medicationService.searchMedications(keyword);
+        } else {
+            medications = medicationService.getAllMedications();
+        }
+
+        model.addAttribute("medications", medications);
         return "shop";
     }
 

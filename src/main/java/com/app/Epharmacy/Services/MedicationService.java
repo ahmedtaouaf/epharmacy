@@ -20,6 +20,9 @@ public class MedicationService {
     public List<Medicament> getAllMedications() {
         return medicationRepository.findAll();
     }
+    public List<Medicament> searchMedications(String keyword) {
+        return medicationRepository.findByNameContainingIgnoreCase(keyword);
+    }
 
     public Optional<Medicament> getMedicationById(Long id) {
         return medicationRepository.findById(id);

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface MedicationRepository extends JpaRepository<Medicament, Long> {
 
+    List<Medicament> findByNameContainingIgnoreCase(String name);
+
     @Query(value = "SELECT *\n" +
             "FROM medicament\n" +
             "ORDER BY id DESC\n" +
