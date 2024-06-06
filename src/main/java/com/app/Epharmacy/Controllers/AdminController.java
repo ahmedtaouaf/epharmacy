@@ -5,12 +5,14 @@ import com.app.Epharmacy.Repository.ClientInfoRepository;
 import com.app.Epharmacy.Repository.CommandeRepository;
 import com.app.Epharmacy.Repository.MedicationRepository;
 import com.app.Epharmacy.Services.CommandeService;
+import com.app.Epharmacy.Services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.mail.MessagingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,8 @@ public class AdminController {
     private ClientInfoRepository clientInfoRepository;
     @Autowired
     private CommandeService commandeService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/admin/commandes")
     public String dashboardPage(Model model){
@@ -64,6 +68,13 @@ public class AdminController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid commande Id:" + id));
         commande.setStatus(true);
         commandeRepository.save(commande);
+
+        try {
+            emailService.sendConfirmation(commande.getClientInfo().getEmail(), "Votre Commande Est Bien Confirmée", "Nous vous remercions de votre commande. Veuillez trouver votre facture ci-jointe.");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:/admin/commandes";
     }
 
