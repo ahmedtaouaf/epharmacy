@@ -6,6 +6,8 @@ import com.app.Epharmacy.Repository.OrderItemRepository;
 import com.app.Epharmacy.Repository.OrderRepository;
 import com.app.Epharmacy.Repository.PharmacieRepository;
 import com.app.Epharmacy.Services.CartService;
+import com.app.Epharmacy.Services.EmailService;
+import com.app.Epharmacy.Services.PdfService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.mail.MessagingException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
@@ -25,12 +30,17 @@ public class PaiementController {
     private final ClientInfoRepository clientInfoRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+    private final EmailService emailService;
+    private final PdfService pdfService;
+
+    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService) {
         this.cartService = cartService;
         this.pharmacieRepository = pharmacieRepository;
         this.clientInfoRepository = clientInfoRepository;
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
+        this.emailService = emailService;
+        this.pdfService = pdfService;
     }
 
     @GetMapping("/checkout")
@@ -69,9 +79,6 @@ public class PaiementController {
         return subtotal;
     }
 
-    @Controller
-    public class OrderController {
-
         @GetMapping("/position")
         public String positionPage(Model model) {
             Map<Long, Medicament> cartItems = cartService.getCartItems();
@@ -88,92 +95,70 @@ public class PaiementController {
             return "position";
         }
 
-        @PostMapping("/confirm")
-        public String confirmOrder(Model model, @RequestParam String firstName,
-                                   @RequestParam String lastName,
-                                   @RequestParam String address,
-                                   @RequestParam String phone,
-                                   @RequestParam String email,
-                                   @RequestParam Long pharmacyId) {
 
-            Pharmacie pharmacie = pharmacieRepository.findById(pharmacyId).orElse(null);
-            if (pharmacie == null) {
-                return "redirect:/position";
-            }
+    @PostMapping("/confirm")
+    public String confirmOrder(Model model, @RequestParam String firstName,
+                               @RequestParam String lastName,
+                               @RequestParam String address,
+                               @RequestParam String phone,
+                               @RequestParam String email,
+                               @RequestParam Long pharmacyId) {
 
-            ClientInfo clientInfo = new ClientInfo();
-            clientInfo.setFirstName(firstName);
-            clientInfo.setLastName(lastName);
-            clientInfo.setAddress(address);
-            clientInfo.setPhone(phone);
-            clientInfo.setEmail(email);
-            clientInfoRepository.save(clientInfo);
-
-            Map<Long, Medicament> cartItems = cartService.getCartItems();
-            int cartSize = cartItems.size();
-            // Calculate subtotal and total
-            BigDecimal subtotal = calculateSubtotal(cartItems);
-            BigDecimal total = calculateTotal(subtotal);
-
-            Commande commande = new Commande();
-            commande.setClientInfo(clientInfo);
-            commande.setPharmacie(pharmacie);
-            commande.setOrderDate(new Date());
-            commande.setTotal(total);
-            commande.setNbrproduit(cartSize);
-            commande.setStatus(false);
-            orderRepository.save(commande);
-
-
-
-            for (Map.Entry<Long, Medicament> entry : cartItems.entrySet()) {
-                Medicament medicament = entry.getValue();
-
-                Commandeart commandeart = new Commandeart();
-                commandeart.setCommande(commande);
-                commandeart.setMedicamentId(medicament.getId());
-
-                orderItemRepository.save(commandeart);
-            }
-
-            System.out.println(commande.getId());
-
-            //cartItems.clear();
-
-            model.addAttribute("pharmacie", pharmacie);
-            model.addAttribute("cartItems", cartItems);
-            model.addAttribute("subtotal", subtotal);
-            model.addAttribute("total", total);
-            model.addAttribute("cartSize", cartSize);
-            model.addAttribute("commande", commande);
-
-            return "thankyou";
+        Pharmacie pharmacie = pharmacieRepository.findById(pharmacyId).orElse(null);
+        if (pharmacie == null) {
+            return "redirect:/position";
         }
 
+        ClientInfo clientInfo = new ClientInfo();
+        clientInfo.setFirstName(firstName);
+        clientInfo.setLastName(lastName);
+        clientInfo.setAddress(address);
+        clientInfo.setPhone(phone);
+        clientInfo.setEmail(email);
+        clientInfoRepository.save(clientInfo);
 
-    }
-
-
-
-    /*@GetMapping("/position")
-    public String positionPage(Model model){
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
-        List<Pharmacie> pharmacies = pharmacieRepository.findAll();
+        BigDecimal subtotal = calculateSubtotal(cartItems);
+        BigDecimal total = calculateTotal(subtotal);
+
+        Commande commande = new Commande();
+        commande.setClientInfo(clientInfo);
+        commande.setPharmacie(pharmacie);
+        commande.setOrderDate(new Date());
+        commande.setTotal(total);
+        commande.setNbrproduit(cartSize);
+        commande.setStatus(false);
+        orderRepository.save(commande);
+
+        for (Map.Entry<Long, Medicament> entry : cartItems.entrySet()) {
+            Medicament medicament = entry.getValue();
+            Commandeart commandeart = new Commandeart();
+            commandeart.setCommande(commande);
+            commandeart.setMedicamentId(medicament.getId());
+            orderItemRepository.save(commandeart);
+        }
+
+        byte[] pdfBytes = pdfService.generateInvoice(clientInfo, pharmacie, commande, cartItems);
+
+        try {
+            emailService.sendInvoice(email, "Votre bon de commande E-Pharmacy", "Nous vous remercions de votre commande. Veuillez trouver votre facture ci-jointe.", pdfBytes);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("pharmacie", pharmacie);
+        model.addAttribute("cartItems", cartItems);
+        model.addAttribute("subtotal", subtotal);
+        model.addAttribute("total", total);
         model.addAttribute("cartSize", cartSize);
-        model.addAttribute("pharmacies", pharmacies);
-        return "position";
-    }
-    @PostMapping("/confirm")
-    public String confirmClosestPharmacy(@RequestParam("pharmacyId") Long pharmacyId, Model model) {
-        Map<Long, Medicament> cartItems = cartService.getCartItems();
-        int cartSize = cartItems.size();
-        cartItems.clear();
-        Pharmacie pharmacy = pharmacieRepository.findById(pharmacyId).orElse(null);
-        model.addAttribute("pharmacy", pharmacy);
-        model.addAttribute("cartSize", cartSize);
+        model.addAttribute("commande", commande);
+
         return "thankyou";
-    }*/
+    }
+
 
 
 }
+
+

@@ -16,7 +16,7 @@ public interface MedicationRepository extends JpaRepository<Medicament, Long> {
             "LIMIT 6;\n", nativeQuery = true)
     List<Object[]> listLastmedicaments();
 
-    @Query(value = "SELECT m.name AS name,\n" +
+    @Query(value = "SELECT m.id as id, m.name AS name,\n" +
             "            m.price AS price, \n" +
             "            m.image_file_name AS filename,\n" +
             "            COUNT(ca.medicament_id) AS soldCount\n" +
