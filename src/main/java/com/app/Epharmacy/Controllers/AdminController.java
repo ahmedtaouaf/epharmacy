@@ -69,11 +69,17 @@ public class AdminController {
         Commande commande = commandeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid commande Id:" + id));
         commande.setStatus(true);
+        List<Commandeart> commandearts = commande.getCommandearts();
+
+        List<Long> medicamentIds = commandearts.stream().map(Commandeart::getMedicamentId).collect(Collectors.toList());
+        List<Medicament> medications = medicationRepository.findAllById(medicamentIds);
         commandeRepository.save(commande);
 
         try {
             Map<String, Object> variables = new HashMap<>();
             variables.put("clientName", commande.getClientInfo().getFirstName() + " " + commande.getClientInfo().getLastName());
+            variables.put("medications", medications);
+            variables.put("commandetotal", commande.getTotal());
 
             emailService.sendConfirmation(commande.getClientInfo().getEmail(), "Votre Commande Est Bien Confirmée", variables);
         } catch (MessagingException e) {
