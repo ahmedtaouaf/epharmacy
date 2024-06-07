@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.mail.MessagingException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -70,7 +72,10 @@ public class AdminController {
         commandeRepository.save(commande);
 
         try {
-            emailService.sendConfirmation(commande.getClientInfo().getEmail(), "Votre Commande Est Bien Confirmée", "Nous vous remercions de votre commande. Veuillez trouver votre facture ci-jointe.");
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("clientName", commande.getClientInfo().getFirstName() + " " + commande.getClientInfo().getLastName());
+
+            emailService.sendConfirmation(commande.getClientInfo().getEmail(), "Votre Commande Est Bien Confirmée", variables);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

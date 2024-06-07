@@ -7,9 +7,12 @@ import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
 
 @Service
 public class EmailService {
@@ -19,6 +22,8 @@ public class EmailService {
 
     @Value("${spring.mail.from}")
     private String fromEmail;
+    @Autowired
+    private TemplateEngine templateEngine;
 
     public void sendInvoice(String toEmail, String subject, String text, byte[] pdfBytes) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -35,14 +40,19 @@ public class EmailService {
         mailSender.send(message);
     }
 
-    public void sendConfirmation(String toEmail, String subject, String text) throws MessagingException {
+    public void sendConfirmation(String toEmail, String subject, Map<String, Object> variables) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        Context context = new Context();
+        context.setVariables(variables);
+
+        String htmlContent = templateEngine.process("confirmation-email", context);
 
         helper.setFrom(fromEmail);
         helper.setTo(toEmail);
         helper.setSubject(subject);
-        helper.setText(text);
+        helper.setText(htmlContent, true);
 
         mailSender.send(message);
     }
