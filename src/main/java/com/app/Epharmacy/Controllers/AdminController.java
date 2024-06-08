@@ -71,17 +71,27 @@ public class AdminController {
         commande.setStatus(true);
         List<Commandeart> commandearts = commande.getCommandearts();
 
-        List<Long> medicamentIds = commandearts.stream().map(Commandeart::getMedicamentId).collect(Collectors.toList());
-        List<Medicament> medications = medicationRepository.findAllById(medicamentIds);
+
         commandeRepository.save(commande);
 
         try {
             Map<String, Object> variables = new HashMap<>();
             variables.put("clientName", commande.getClientInfo().getFirstName() + " " + commande.getClientInfo().getLastName());
-            variables.put("medications", medications);
-            variables.put("commandetotal", commande.getTotal());
+            variables.put("pharmacienom", commande.getPharmacie().getNom());
+            variables.put("pharmacieadresse", commande.getPharmacie().getAdresse());
+            variables.put("pharmacieemail", commande.getPharmacie().getEmail());
+            variables.put("pharmaciefix", commande.getPharmacie().getFix());
+            variables.put("pharmacietelephone", commande.getPharmacie().getTelephone());
+            variables.put("pharmacielatitude", commande.getPharmacie().getLatitude());
+            variables.put("pharmacielongitude", commande.getPharmacie().getLongitude());
 
-            emailService.sendConfirmation(commande.getClientInfo().getEmail(), "Votre Commande Est Bien Confirmée", variables);
+            // Add the Google Maps directions link
+            String directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=" +
+                    commande.getPharmacie().getLatitude() + "," +
+                    commande.getPharmacie().getLongitude();
+            variables.put("directionsUrl", directionsUrl);
+
+            emailService.sendConfirmation(commande.getClientInfo().getEmail(), "La pharmacie est confirmée votre commande", variables);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

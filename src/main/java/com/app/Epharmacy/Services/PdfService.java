@@ -137,7 +137,7 @@ public class PdfService {
     private Paragraph createSection(String title) {
         return new Paragraph(title)
                 .setBold()
-                .setFontColor(new DeviceRgb(0, 128, 0))
+                .setFontColor(new DeviceRgb(0, 0, 0))
                 .setFontSize(14)
                 .setMarginTop(15)
                 .setMarginBottom(10)

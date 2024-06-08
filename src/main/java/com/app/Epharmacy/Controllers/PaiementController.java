@@ -1,10 +1,7 @@
 package com.app.Epharmacy.Controllers;
 
 import com.app.Epharmacy.Entity.*;
-import com.app.Epharmacy.Repository.ClientInfoRepository;
-import com.app.Epharmacy.Repository.OrderItemRepository;
-import com.app.Epharmacy.Repository.OrderRepository;
-import com.app.Epharmacy.Repository.PharmacieRepository;
+import com.app.Epharmacy.Repository.*;
 import com.app.Epharmacy.Services.CartService;
 import com.app.Epharmacy.Services.EmailService;
 import com.app.Epharmacy.Services.PdfService;
@@ -20,7 +17,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class PaiementController {
@@ -32,8 +32,9 @@ public class PaiementController {
     private final OrderItemRepository orderItemRepository;
     private final EmailService emailService;
     private final PdfService pdfService;
+    private final MedicationRepository medicationRepository;
 
-    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService) {
+    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService, MedicationRepository medicationRepository) {
         this.cartService = cartService;
         this.pharmacieRepository = pharmacieRepository;
         this.clientInfoRepository = clientInfoRepository;
@@ -41,6 +42,7 @@ public class PaiementController {
         this.orderItemRepository = orderItemRepository;
         this.emailService = emailService;
         this.pdfService = pdfService;
+        this.medicationRepository = medicationRepository;
     }
 
     @GetMapping("/checkout")
@@ -142,7 +144,12 @@ public class PaiementController {
         byte[] pdfBytes = pdfService.generateInvoice(clientInfo, pharmacie, commande, cartItems);
 
         try {
-            emailService.sendInvoice(email, "Votre bon de commande E-Pharmacy", "Nous vous remercions de votre commande. Veuillez trouver votre facture ci-jointe.", pdfBytes);
+
+            Map<String, Object> variables = new HashMap<>();
+            variables.put("clientName", commande.getClientInfo().getFirstName() + " " + commande.getClientInfo().getLastName());
+            variables.put("medications", cartItems.values());
+            variables.put("commandetotal", commande.getTotal());
+            emailService.sendInvoice(email, "Votre bon de commande E-Pharmacy",variables, pdfBytes);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff;">
+    <tr>
+        <td align="center" style="padding: 40px 0 30px 0; background-color: #FFFFFF;">
+            <img src="https://i.ibb.co/yP0ZsG0/logo.png" alt="Company Logo" width="200" height="200" style="display: block;">
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 20px 30px 40px 30px;">
+            <h1 style="color: #333333; text-align: center;">Informations Pharmacie</h1>
+            <p style="color: #555555;">Cher(e) <span th:text="${clientName}"></span>,</p>
+            <p style="color: #555555;">Nous avons le plaisir de vous informer que votre commande a été confirmée par la pharmacie. Vous pouvez désormais récupérer votre commande à la pharmacie la plus proche de chez vous.</p>
+            <table border="1" cellpadding="5" cellspacing="0" width="100%" style="border-color: #dddddd;">
+                <tr>
+                    <th style="background-color: #546949; color: #ffffff;">Nom Pharmacie</th>
+                    <th style="background-color: #546949; color: #ffffff;">Adresse</th>
+                    <th style="background-color: #546949; color: #ffffff;">Email</th>
+                    <th style="background-color: #546949; color: #ffffff;">Fixe</th>
+                    <th style="background-color: #546949; color: #ffffff;">Tél</th>
+                </tr>
+                <tr>
+                    <td style="color: #333333;" th:text="${pharmacienom}"></td>
+                    <td style="color: #333333;" th:text="${pharmacieadresse}"></td>
+                    <td style="color: #333333;" th:text="${pharmacieemail}"></td>
+                    <td style="color: #333333;" th:text="${pharmaciefix}"></td>
+                    <td style="color: #333333;" th:text="${pharmacietelephone}"></td>
+                </tr>
+            </table>
+            <p style="color: #555555;">Pour obtenir l'itinéraire vers la pharmacie, veuillez cliquer sur le lien suivant : <a th:href="${directionsUrl}" style="color: #546949;">Obtenir l'itinéraire</a>.</p>
+            <p style="color: #555555;">Si vous avez des questions, n'hésitez pas à contacter notre équipe d'assistance.</p>
+            <p style="color: #555555;">Cordialement,</p>
+            <p style="color: #555555;"><strong>E-Pharmacy</strong></p>
+        </td>
+    </tr>
+    <tr>
+        <td align="center" style="padding: 30px 30px 30px 30px; background-color: #546949; color: #ffffff;">
+            <p style="margin: 0;">&copy; 2024 E-Pharmacy. Tous droits réservés.</p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

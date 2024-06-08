@@ -25,14 +25,19 @@ public class EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public void sendInvoice(String toEmail, String subject, String text, byte[] pdfBytes) throws MessagingException {
+    public void sendInvoice(String toEmail, String subject,Map<String, Object> variables, byte[] pdfBytes) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        Context context = new Context();
+        context.setVariables(variables);
+
+        String htmlContent = templateEngine.process("confirmation-email", context);
 
         helper.setFrom(fromEmail);
         helper.setTo(toEmail);
         helper.setSubject(subject);
-        helper.setText(text);
+        helper.setText(htmlContent, true);
 
         InputStreamSource attachment = new ByteArrayResource(pdfBytes);
         helper.addAttachment("Reçu_Commande.pdf", attachment);
@@ -47,7 +52,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariables(variables);
 
-        String htmlContent = templateEngine.process("confirmation-email", context);
+        String htmlContent = templateEngine.process("pharmacy-email", context);
 
         helper.setFrom(fromEmail);
         helper.setTo(toEmail);

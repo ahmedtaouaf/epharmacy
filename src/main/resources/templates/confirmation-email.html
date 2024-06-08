@@ -7,47 +7,42 @@
 
 </head>
 <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #ffffff;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background-color: #FFFFFF;">
     <tr>
-        <td align="center" style="padding: 40px 0 30px 0; background-color: #0073e6;">
+        <td align="center" style="padding: 40px 0 30px 0; background-color: #FFFFFF;">
             <img src="https://i.ibb.co/yP0ZsG0/logo.png" alt="Company Logo" width="200" height="200" style="display: block;">
         </td>
     </tr>
     <tr>
         <td style="padding: 20px 30px 40px 30px;">
-            <h1 style="color: #333333; text-align: center;">Order Confirmation</h1>
-            <p style="color: #555555;">Hello <span th:text="${clientName}"></span>,</p>
+            <h1 style="color: #333333; text-align: center;">Commande Confirmation</h1>
+            <p style="color: #555555;">Cher(e) <span th:text="${clientName}"></span>,</p>
             <p style="color: #555555;">Nous vous remercions de votre commande! Voici les détails de votre achat :</p>
             <table border="1" cellpadding="5" cellspacing="0" width="100%" style="border-color: #dddddd;">
                 <tr >
-                    <th style="background-color: #0073e6; color: #ffffff;">Produit</th>
-                    <th style="background-color: #0073e6; color: #ffffff;">Qte</th>
-                    <th style="background-color: #0073e6; color: #ffffff;">Prix</th>
+                    <th style="background-color: #546949; color: #ffffff;">Produit</th>
+                    <th style="background-color: #546949; color: #ffffff;">Qte</th>
+                    <th style="background-color: #546949; color: #ffffff;">Prix</th>
                 </tr>
                 <tr th:each="medication : ${medications}">
                     <td style="color: #333333;" th:text="${medication.name}"></td>
                     <td style="color: #333333;">1</td>
                     <td style="color: #333333;" th:text="${medication.price}"></td>
                 </tr>
-                <!-- Repeat above <tr> block for each item -->
                 <tr>
                     <td colspan="2" style="text-align: right; color: #333333;">Total:</td>
                     <td style="color: #333333;" th:text="${commandetotal}"></td>
                 </tr>
             </table>
-            <p style="color: #555555;">You can track your order using the following link:</p>
-            <p style="text-align: center;">
-                <a href="[Tracking Link]" style="background-color: #0073e6; color: #ffffff; padding: 10px 20px; text-decoration: none; display: inline-block; border-radius: 5px;">Track Order</a>
-            </p>
-            <p style="color: #555555;">If you have any questions, feel free to contact our support team.</p>
-            <p style="color: #555555;">Best regards,</p>
-            <p style="color: #555555;"><strong>[Company Name]</strong></p>
+            <p style="color: #555555;">Un email de confirmation de la pharmacie la plus proche de chez vous vous sera envoyé sous peu pour que vous puissiez récupérer votre commande. Veuillez trouver votre facture en pièce jointe.</p>
+            <p style="color: #555555;">Si vous avez des questions, n'hésitez pas à contacter notre équipe d'assistance.</p>
+            <p style="color: #555555;">Cordialement,</p>
+            <p style="color: #555555;"><strong>E-Pharmacy</strong></p>
         </td>
     </tr>
     <tr>
-        <td align="center" style="padding: 30px 30px 30px 30px; background-color: #0073e6; color: #ffffff;">
-            <p style="margin: 0;">&copy; [Year] [Company Name]. All rights reserved.</p>
-            <p style="margin: 0;"><a href="[Unsubscribe Link]" style="color: #ffffff; text-decoration: underline;">Unsubscribe</a></p>
+        <td align="center" style="padding: 30px 30px 30px 30px; background-color: #546949; color: #ffffff;">
+            <p style="margin: 0;">&copy; 2024 E-Pharmacy. Tous droits réservés.</p>
         </td>
     </tr>
 </table>
