@@ -1,15 +1,13 @@
 package com.app.Epharmacy.Controllers;
 
+import com.app.Epharmacy.Entity.Commande;
 import com.app.Epharmacy.Entity.Medicament;
 import com.app.Epharmacy.Repository.MedicationRepository;
 import com.app.Epharmacy.Services.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,6 +23,8 @@ public class StockController {
 
     @Autowired
     private MedicationService medicationService;
+    @Autowired
+    private MedicationRepository medicationRepository;
     private final Path imageStoragePath = Paths.get("src/main/resources/static/images").toAbsolutePath();
 
     @GetMapping("/admin/stocklist")
@@ -40,6 +40,13 @@ public class StockController {
     public String showAddMedicationForm(Model model) {
         model.addAttribute("medication", new Medicament());
         return "/admin/stock-addproduit";
+    }
+
+    @PostMapping("/admin/stock/{id}/delete")
+    public String deleteStock(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        medicationService.deleteMedication(id);
+        redirectAttributes.addFlashAttribute("produitDelete", "Médicament supprimer avec succès du stock !");
+        return "redirect:/admin/stocklist";
     }
 
     @PostMapping("/addmedicamenet")

@@ -59,7 +59,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-centered table-nowrap mb-0">
+                                            <table class="table table-centered">
                                                 <thead class="table-light">
                                                 <tr>
                                                     <th>Commande ID</th>
@@ -68,7 +68,7 @@
                                                     <th>Total</th>
                                                     <th>Pharmacie</th>
                                                     <th>Status</th>
-                                                    <th class="text-center" style="width: 125px;">Action</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -76,7 +76,7 @@
                                                     <td th:text="${commande.id}"> </td>
                                                     <td th:text="${commande.orderDate}"></td>
                                                     <td th:text="${commande.nbrproduit}"></td>
-                                                    <td th:text="${commande.total}"></td>
+                                                    <td th:text="${commande.total}+'DHS'"></td>
                                                     <td th:text="${commande.pharmacie.nom}"></td>
                                                     <td th:if="${commande.isStatus() == true}">
                                                         <h5><span class="badge badge-success-lighten">Confirmer</span></h5>
@@ -87,6 +87,7 @@
                                                     <td>
                                                         <a th:href="@{'/admin/commandes/' + ${commande.id} + '/details'}" class="btn btn-info">Details</a>
                                                         <a th:href="@{'/admin/commandes/' + ${commande.id} + '/confirm'}" class="btn btn-warning" th:if="${not commande.status}">Confirmer</a>
+                                                        <a th:href="@{'/admin/commandes/' + ${commande.id} + '/delete'}" class="btn btn-danger" >Supprimer</a>
                                                     </td>
                                                 </tr>
                                                 </tbody>

@@ -58,6 +58,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <div th:if="${produitDelete}" class="alert alert-danger" role="alert">
+                                    <i class="dripicons-checkmark me-2"></i>
+                                    <strong th:text="${produitDelete}"></strong>
+                                </div>
                                 <div class="row mb-2">
                                     <div class="col-xl-8">
                                         <form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
@@ -81,6 +85,7 @@
                                             <th>Médicament</th>
                                             <th>Description</th>
                                             <th>Prix</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -91,6 +96,12 @@
                                             </td>
                                             <td th:text="${medicament.description}"></td>
                                             <td th:text="${medicament.price}+ 'DHS'"></td>
+                                            <td>
+                                                <a class="btn btn-warning">Modifier</a>
+                                                <form th:action="@{'/admin/stock/' + ${medicament.id} + '/delete'}" method="post" style="display:inline;">
+                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>

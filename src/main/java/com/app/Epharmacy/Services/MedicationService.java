@@ -32,9 +32,16 @@ public class MedicationService {
         return medicationRepository.save(medicament);
     }
 
-    public Medicament updateMedication(Long id, Medicament medicament) {
-        medicament.setId(id);
-        return medicationRepository.save(medicament);
+    public void updateMedication(Medicament medication) {
+        Medicament existingMedication = medicationRepository.findById(medication.getId())
+                .orElseThrow(() -> new RuntimeException("Medication not found"));
+
+        existingMedication.setName(medication.getName());
+        existingMedication.setDescription(medication.getDescription());
+        existingMedication.setPrice(medication.getPrice());
+        existingMedication.setImageFileName(medication.getImageFileName());
+
+        medicationRepository.save(existingMedication);
     }
 
     public void deleteMedication(Long id) {

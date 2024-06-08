@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.mail.MessagingException;
 import java.util.Arrays;
@@ -95,6 +97,16 @@ public class AdminController {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+
+        return "redirect:/admin/commandes";
+    }
+
+    @GetMapping("/admin/commandes/{id}/delete")
+    public String deleteCommande(@PathVariable Long id) {
+        Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid commande Id:" + id));
+
+        commandeRepository.delete(commande);
 
         return "redirect:/admin/commandes";
     }

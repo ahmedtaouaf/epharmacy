@@ -79,7 +79,7 @@ public class MedicationController {
                 // Handle the exception
             }
         }
-        medicationService.updateMedication(id, medicament);
+        medicationService.updateMedication(medicament);
         return "redirect:/medications";
     }
 
