@@ -81,8 +81,8 @@ public class PaiementController {
         return subtotal;
     }
 
-        @GetMapping("/position")
-        public String positionPage(Model model) {
+    @GetMapping("/position")
+    public String positionPage(Model model) {
             Map<Long, Medicament> cartItems = cartService.getCartItems();
             int cartSize = cartItems.size();
             BigDecimal subtotal = calculateSubtotal(cartItems);
@@ -95,7 +95,7 @@ public class PaiementController {
             model.addAttribute("pharmacies", pharmacieRepository.findAll());
 
             return "position";
-        }
+    }
 
 
     @PostMapping("/confirm")

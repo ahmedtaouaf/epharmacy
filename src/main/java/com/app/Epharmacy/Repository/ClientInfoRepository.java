@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ClientInfoRepository extends JpaRepository<ClientInfo, Long> {
     @Query("SELECT count(c) FROM ClientInfo c")
     int nbrClient();
+
+    ClientInfo findByEmail(String email);
 }
