@@ -5,23 +5,72 @@
 <!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:18:47 GMT -->
 <head>
     <meta charset="utf-8" />
-    <title>E-Pharmcy | Dashboard</title>
+    <title>E-Pharmacy | Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
-    <!-- App favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico">
 
-    <!-- third party css -->
     <link href="/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-    <!-- third party css end -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <!-- App css -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>
     <script src="/assets/js/vendor/apexcharts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script>
 
+
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            var socket = new SockJS('/ws');
+            var stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/orders', function (orderNotification) {
+                    var order = JSON.parse(orderNotification.body);
+                    console.log('Order Notification:', order);
+                    showNotification(order);
+                });
+            });
+            function showNotification(order) {
+                const message = `
+                    Order ID: ${order.id}
+                    Total: ${order.total} DHS
+                    Number of Products: ${order.nbrproduit}
+                    Client: ${order.clientInfo.firstName} ${order.clientInfo.lastName}
+                `;
+                toastr.warning('My name is Inigo Montoya. You killed my father, prepare to die!')
+                toastr.success(message, "New Order Received");
+            }
+        });
+    </script>
 </head>
+
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
 <!-- Begin page -->
@@ -346,6 +395,26 @@
 <!-- demo app -->
 <script src="/assets/js/pages/demo.dashboard.js"></script>
 <!-- end demo js-->
+
+<!--<script>
+    var socket = new SockJS('/ws');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/orders', function (orderNotification) {
+            showNotification(JSON.parse(orderNotification.body));
+        });
+    });
+
+    function showNotification(order) {
+        var notificationsDiv = document.getElementById("notifications");
+        var notification = document.createElement("div");
+        notification.innerHTML = "New order received: " + order.id;
+        notificationsDiv.appendChild(notification);
+    }
+</script>-->
+
 
 <script th:inline="javascript">
     /* Fetching data from the model attribute */

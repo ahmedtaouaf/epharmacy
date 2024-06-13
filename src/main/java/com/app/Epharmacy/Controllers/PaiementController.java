@@ -32,9 +32,10 @@ public class PaiementController {
     private final OrderItemRepository orderItemRepository;
     private final EmailService emailService;
     private final PdfService pdfService;
-    private final MedicationRepository medicationRepository;
+    private final NotificationController notificationController;
 
-    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService, MedicationRepository medicationRepository) {
+
+    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService, NotificationController notificationController) {
         this.cartService = cartService;
         this.pharmacieRepository = pharmacieRepository;
         this.clientInfoRepository = clientInfoRepository;
@@ -42,7 +43,7 @@ public class PaiementController {
         this.orderItemRepository = orderItemRepository;
         this.emailService = emailService;
         this.pdfService = pdfService;
-        this.medicationRepository = medicationRepository;
+        this.notificationController = notificationController;
     }
 
     @GetMapping("/checkout")
@@ -153,6 +154,9 @@ public class PaiementController {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+
+        notificationController.sendOrderNotification(commande);
+
 
         model.addAttribute("pharmacie", pharmacie);
         model.addAttribute("cartItems", cartItems);

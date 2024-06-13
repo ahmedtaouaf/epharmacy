@@ -1,8 +1,6 @@
 package com.app.Epharmacy.Config;
 
-import com.app.Epharmacy.Entity.ClientInfo;
-import com.app.Epharmacy.Repository.ClientInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
