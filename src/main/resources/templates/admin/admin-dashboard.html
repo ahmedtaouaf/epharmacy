@@ -4,75 +4,30 @@
 
 <!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:18:47 GMT -->
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>E-Pharmacy | Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-    <meta content="Coderthemes" name="author" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="Coderthemes" name="author"/>
     <link rel="shortcut icon" href="/assets/images/favicon.ico">
 
-    <link href="/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css"/>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style"/>
     <script src="/assets/js/vendor/apexcharts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/sockjs/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <script>
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
-
-            var socket = new SockJS('/ws');
-            var stompClient = Stomp.over(socket);
-
-            stompClient.connect({}, function (frame) {
-                console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/orders', function (orderNotification) {
-                    var order = JSON.parse(orderNotification.body);
-                    console.log('Order Notification:', order);
-                    showNotification(order);
-                });
-            });
-            function showNotification(order) {
-                const message = `
-                    Order ID: ${order.id}
-                    Total: ${order.total} DHS
-                    Number of Products: ${order.nbrproduit}
-                    Client: ${order.clientInfo.firstName} ${order.clientInfo.lastName}
-                `;
-                toastr.warning('My name is Inigo Montoya. You killed my father, prepare to die!')
-                toastr.success(message, "New Order Received");
-            }
-        });
-    </script>
+    <script src="/js/websocketconfig.js"> </script>
 </head>
 
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+      data-rightbar-onstart="true">
 <!-- Begin page -->
 <div class="wrapper">
     <!-- ========== Left Sidebar Start ========== -->
@@ -110,7 +65,8 @@
                                 <div class="card widget-flat">
                                     <div class="card-body d-flex align-items-center justify-content-between">
                                         <div class="d-flex flex-column align-items-start">
-                                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Clients</h5>
+                                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">
+                                                Clients</h5>
                                             <h3 class="mt-3 mb-3" th:text="${nbrClients}"></h3>
                                         </div>
                                         <div class="widget-icon">
@@ -124,7 +80,8 @@
                                 <div class="card widget-flat">
                                     <div class="card-body d-flex align-items-center justify-content-between">
                                         <div class="d-flex flex-column align-items-start">
-                                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Commandes</h5>
+                                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">
+                                                Commandes</h5>
                                             <h3 class="mt-3 mb-3" th:text="${nbrClients}"></h3>
                                         </div>
                                         <div class="widget-icon">
@@ -184,7 +141,6 @@
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->
-
                 <div class="row">
                     <div class="col-xl-6 col-lg-12 order-lg-2 order-xl-1">
                         <div class="card">
@@ -202,7 +158,8 @@
                                                 <span class="text-muted font-13">Nom Medicament</span>
                                             </td>
                                             <td>
-                                                <h5 class="font-14 my-1 fw-normal" th:text="${medicamentData[1]+' DHS'}"></h5>
+                                                <h5 class="font-14 my-1 fw-normal"
+                                                    th:text="${medicamentData[1]+' DHS'}"></h5>
                                                 <span class="text-muted font-13">Prix</span>
                                             </td>
                                             <td>
@@ -210,7 +167,8 @@
                                                 <span class="text-muted font-13">Qte Vendus</span>
                                             </td>
                                             <td>
-                                                <h5 class="font-14 my-1 fw-normal" th:text="${medicamentData[3]+' DHS'}"></h5>
+                                                <h5 class="font-14 my-1 fw-normal"
+                                                    th:text="${medicamentData[3]+' DHS'}"></h5>
                                                 <span class="text-muted font-13">Total Revenues</span>
                                             </td>
                                         </tr>
@@ -228,7 +186,8 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h4 class="header-title">Meilleures Pharmacies Par Commandes</h4>
                                     <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a href="#" class="dropdown-toggle arrow-none card-drop"
+                                           data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="mdi mdi-dots-vertical"></i>
                                         </a>
                                     </div>
@@ -239,7 +198,8 @@
 
 
                                 <div class="chart-widget-list">
-                                    <h3 class="header-title text-center" style="margin-bottom: 15px;">Meilleures Pharmacies Par Revenues</h3>
+                                    <h3 class="header-title text-center" style="margin-bottom: 15px;">Meilleures
+                                        Pharmacies Par Revenues</h3>
                                     <th:block th:each="pharmacy, iterStat : ${topPharmaciesByRevenue}">
                                         <p th:class="${iterStat.last ? 'mb-0' : ''}">
                                             <span th:text="${pharmacy[0]}">Pharmacy Name</span>
@@ -265,7 +225,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6">
-                        <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com
+                        <script>document.write(new Date().getFullYear())</script>
+                        © Hyper - Coderthemes.com
                     </div>
                     <div class="col-md-6">
                         <div class="text-md-end footer-links d-none d-md-block">
@@ -308,22 +269,24 @@
 
             <!-- Settings -->
             <h5 class="mt-3">Color Scheme</h5>
-            <hr class="mt-1" />
+            <hr class="mt-1"/>
 
             <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light" id="light-mode-check" checked>
+                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="light"
+                       id="light-mode-check" checked>
                 <label class="form-check-label" for="light-mode-check">Light Mode</label>
             </div>
 
             <div class="form-check form-switch mb-1">
-                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark" id="dark-mode-check">
+                <input class="form-check-input" type="checkbox" name="color-scheme-mode" value="dark"
+                       id="dark-mode-check">
                 <label class="form-check-label" for="dark-mode-check">Dark Mode</label>
             </div>
 
 
             <!-- Width -->
             <h5 class="mt-4">Width</h5>
-            <hr class="mt-1" />
+            <hr class="mt-1"/>
             <div class="form-check form-switch mb-1">
                 <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check" checked>
                 <label class="form-check-label" for="fluid-check">Fluid</label>
@@ -337,7 +300,7 @@
 
             <!-- Left Sidebar-->
             <h5 class="mt-4">Left Sidebar</h5>
-            <hr class="mt-1" />
+            <hr class="mt-1"/>
             <div class="form-check form-switch mb-1">
                 <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
                 <label class="form-check-label" for="default-check">Default</label>
@@ -395,7 +358,7 @@
 <!-- demo app -->
 <script src="/assets/js/pages/demo.dashboard.js"></script>
 <!-- end demo js-->
-
+<script src="/assets/js/pages/demo.toastr.js"></script>
 <!--<script>
     var socket = new SockJS('/ws');
     var stompClient = Stomp.over(socket);
@@ -485,5 +448,4 @@
 
 </body>
 
-<!-- Mirrored from coderthemes.com/hyper/saas/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 29 Jul 2022 10:20:07 GMT -->
 </html>
