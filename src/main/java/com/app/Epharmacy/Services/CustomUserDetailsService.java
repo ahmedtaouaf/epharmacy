@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String sql = "SELECT id, username, password, role FROM Login WHERE username = ?";
+        String sql = "SELECT id, username, password, role FROM login WHERE username = ?";
         List<UserDetails> users = jdbcTemplate.query(sql, new String[]{username}, (ResultSet rs, int rowNum) -> {
             String role = rs.getString("role");
             return User.withUsername(rs.getString("username"))
