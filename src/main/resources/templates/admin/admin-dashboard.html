@@ -212,6 +212,18 @@
                     </div> <!-- end col-->
 
                 </div>
+
+                <form th:action="@{/capture-face}" method="post">
+                    <video id="videoElement" width="640" height="480" autoplay></video>
+                    <br>
+                    <button type="button" onclick="captureImage()">Capture Image</button>
+                    <input type="hidden" id="imageData" name="imageData" />
+                    <br>
+                    <input type="submit" value="Save Face Image" />
+                </form>
+
+
+
                 <!-- end row -->
 
             </div>
@@ -444,7 +456,39 @@
 
     new ApexCharts(document.querySelector("#average-sales"), pharmacyChartOptions).render();
 </script>
+<script>
 
+    function captureImage() {
+        const videoElement = document.getElementById('videoElement');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const imageDataInput = document.getElementById('imageData');
+
+        // Set canvas dimensions equal to video feed dimensions
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+
+        // Draw current video frame onto the canvas
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        // Convert canvas content to base64 data URL
+        const imageDataURL = canvas.toDataURL('image/jpeg');
+
+        // Set the captured image data in the hidden input field
+        imageDataInput.value = imageDataURL;
+    }
+
+    // Access user's camera and display live feed in the video element
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            videoElement.srcObject = stream;
+        })
+        .catch(function (error) {
+            console.error('Error accessing camera:', error);
+        });
+
+
+</script>
 
 </body>
 

@@ -10,17 +10,17 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Login {
+public class FaceImage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @OneToOne
+    @JoinColumn(name = "login_id", referencedColumnName = "id")
+    private Login login;
 
-    @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
-    private String role;
+    @Lob
+    @Column(name = "image", columnDefinition = "BLOB")
+    private byte[] image;
 }
+
