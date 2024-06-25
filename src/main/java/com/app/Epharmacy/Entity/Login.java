@@ -11,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Login {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -23,4 +24,8 @@ public class Login {
 
     @Column(nullable = false)
     private String role;
+
+    @OneToOne
+    @JoinColumn(name = "client_info_id")
+    private ClientInfo clientInfo;
 }
