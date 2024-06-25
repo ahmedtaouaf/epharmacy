@@ -1,7 +1,12 @@
 package com.app.Epharmacy.Controllers;
 
+import com.app.Epharmacy.Entity.ClientInfo;
+import com.app.Epharmacy.Entity.Login;
 import com.app.Epharmacy.Entity.Medicament;
+import com.app.Epharmacy.Repository.LoginRepository;
 import com.app.Epharmacy.Services.CartService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +18,11 @@ import java.util.Map;
 @Controller
 public class CartController {
     private final CartService cartService;
+    private final LoginRepository loginRepository;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, LoginRepository loginRepository) {
         this.cartService = cartService;
+        this.loginRepository = loginRepository;
     }
 
     @GetMapping("/cart")
@@ -25,6 +32,7 @@ public class CartController {
 
         BigDecimal subtotal = calculateSubtotal(cartItems);
         BigDecimal total = calculateTotal(subtotal);
+
 
 
         model.addAttribute("cartItems", cartItems);

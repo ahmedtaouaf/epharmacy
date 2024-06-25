@@ -1,5 +1,6 @@
 package com.app.Epharmacy.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class ClientInfo {
     private String address;
     private String phone;
     private String email;
+
     @OneToOne(mappedBy = "clientInfo", cascade = CascadeType.ALL)
     private Login login;
 

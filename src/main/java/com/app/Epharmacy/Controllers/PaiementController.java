@@ -5,6 +5,8 @@ import com.app.Epharmacy.Repository.*;
 import com.app.Epharmacy.Services.CartService;
 import com.app.Epharmacy.Services.EmailService;
 import com.app.Epharmacy.Services.PdfService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +35,10 @@ public class PaiementController {
     private final EmailService emailService;
     private final PdfService pdfService;
     private final NotificationController notificationController;
+    private final LoginRepository loginRepository;
 
 
-    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService, NotificationController notificationController) {
+    public PaiementController(CartService cartService, PharmacieRepository pharmacieRepository, ClientInfoRepository clientInfoRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository, EmailService emailService, PdfService pdfService, NotificationController notificationController, LoginRepository loginRepository) {
         this.cartService = cartService;
         this.pharmacieRepository = pharmacieRepository;
         this.clientInfoRepository = clientInfoRepository;
@@ -44,6 +47,7 @@ public class PaiementController {
         this.emailService = emailService;
         this.pdfService = pdfService;
         this.notificationController = notificationController;
+        this.loginRepository = loginRepository;
     }
 
     @GetMapping("/checkout")
@@ -89,6 +93,7 @@ public class PaiementController {
             BigDecimal subtotal = calculateSubtotal(cartItems);
             BigDecimal total = calculateTotal(subtotal);
 
+
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("subtotal", subtotal);
             model.addAttribute("total", total);
@@ -100,11 +105,7 @@ public class PaiementController {
 
 
     @PostMapping("/confirm")
-    public String confirmOrder(Model model, @RequestParam String firstName,
-                               @RequestParam String lastName,
-                               @RequestParam String address,
-                               @RequestParam String phone,
-                               @RequestParam String email,
+    public String confirmOrder(Model model,
                                @RequestParam Long pharmacyId) {
 
         Pharmacie pharmacie = pharmacieRepository.findById(pharmacyId).orElse(null);
@@ -112,13 +113,15 @@ public class PaiementController {
             return "redirect:/position";
         }
 
-        ClientInfo clientInfo = new ClientInfo();
-        clientInfo.setFirstName(firstName);
-        clientInfo.setLastName(lastName);
-        clientInfo.setAddress(address);
-        clientInfo.setPhone(phone);
-        clientInfo.setEmail(email);
-        clientInfoRepository.save(clientInfo);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+
+        Login login = loginRepository.findByUsername(username);
+
+        ClientInfo clientInfo = login.getClientInfo();
+
+
 
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
@@ -150,7 +153,7 @@ public class PaiementController {
             variables.put("clientName", commande.getClientInfo().getFirstName() + " " + commande.getClientInfo().getLastName());
             variables.put("medications", cartItems.values());
             variables.put("commandetotal", commande.getTotal());
-            emailService.sendInvoice(email, "Votre bon de commande E-Pharmacy",variables, pdfBytes);
+            emailService.sendInvoice(clientInfo.getEmail(), "Votre bon de commande E-Pharmacy",variables, pdfBytes);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
