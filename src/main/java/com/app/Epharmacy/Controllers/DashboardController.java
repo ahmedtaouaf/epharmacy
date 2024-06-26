@@ -87,7 +87,8 @@ public class DashboardController {
 
     @GetMapping("/profile")
     public String profilePage(Model model) {
-
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 
@@ -106,7 +107,7 @@ public class DashboardController {
 
 
             model.addAttribute("isAuthenticated", true);
-
+            model.addAttribute("cartSize", cartSize);
 
             return "profile";
         } else {
