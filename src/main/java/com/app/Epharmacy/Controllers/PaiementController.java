@@ -51,12 +51,17 @@ public class PaiementController {
     }
 
     @GetMapping("/checkout")
-    public String paiementPage(Model model, RedirectAttributes redirectAttributes){
+    public String paiementPage(Model model, RedirectAttributes redirectAttributes, Authentication authentication){
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
         // Calculate subtotal and total
         BigDecimal subtotal = calculateSubtotal(cartItems);
         BigDecimal total = calculateTotal(subtotal);
+
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+
+        model.addAttribute("isAuthenticated", isAuthenticated);
+
         if (cartItems.isEmpty()){
             redirectAttributes.addFlashAttribute("panierVide", "Votre panier est actuellement vide, veuillez ajouter des produits");
             return "redirect:/cart";
@@ -87,12 +92,14 @@ public class PaiementController {
     }
 
     @GetMapping("/position")
-    public String positionPage(Model model) {
+    public String positionPage(Model model,Authentication authentication) {
             Map<Long, Medicament> cartItems = cartService.getCartItems();
             int cartSize = cartItems.size();
             BigDecimal subtotal = calculateSubtotal(cartItems);
             BigDecimal total = calculateTotal(subtotal);
+            boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
 
+            model.addAttribute("isAuthenticated", isAuthenticated);
 
             model.addAttribute("cartItems", cartItems);
             model.addAttribute("subtotal", subtotal);
@@ -159,7 +166,9 @@ public class PaiementController {
         }
 
         notificationController.sendOrderNotification(commande);
+        boolean isAuthenticated =  authentication.isAuthenticated();
 
+        model.addAttribute("isAuthenticated", isAuthenticated);
 
         model.addAttribute("pharmacie", pharmacie);
         model.addAttribute("cartItems", cartItems);

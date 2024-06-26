@@ -30,11 +30,14 @@
                         <span class="icon-shopping-bag"></span>
                         <span class="number" th:text="${cartSize}"></span>
                     </a>
-                    <a href="/profile" class="icons-btn d-inline-block bag">
+
+                    <a href="/profile" style="margin-right: 10px" >
                         <span class="icon-user"></span>
                     </a>
-                    <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
-                            class="icon-menu"></span></a>
+                    <a th:if="${isAuthenticated}" href="/logout" >
+                        <span class="icon-sign-out"></span>
+                    </a>
+
                 </div>
             </div>
         </div>

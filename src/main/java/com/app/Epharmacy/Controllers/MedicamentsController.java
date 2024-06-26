@@ -3,6 +3,7 @@ package com.app.Epharmacy.Controllers;
 import com.app.Epharmacy.Entity.Medicament;
 import com.app.Epharmacy.Services.CartService;
 import com.app.Epharmacy.Services.MedicationService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class MedicamentsController {
     }
 
     @GetMapping("/medicaments")
-    public String medicamentPage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+    public String medicamentPage(Model model, Authentication authentication, @RequestParam(value = "keyword", required = false) String keyword) {
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
         model.addAttribute("cartSize", cartSize);
@@ -41,17 +42,25 @@ public class MedicamentsController {
             medications = medicationService.getAllMedications();
         }
 
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+
+        model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("medications", medications);
         return "shop";
     }
 
     @GetMapping("/medicaments/{id}")
-    public String getMedicationById(@PathVariable Long id, Model model) {
+    public String getMedicationById(@PathVariable Long id, Model model, Authentication authentication) {
 
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
         model.addAttribute("cartSize", cartSize);
         Optional<Medicament> medication = medicationService.getMedicationById(id);
+
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+
+        model.addAttribute("isAuthenticated", isAuthenticated);
+
         if (medication.isPresent()) {
             model.addAttribute("medication", medication.get());
 

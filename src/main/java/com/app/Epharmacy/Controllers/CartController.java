@@ -26,15 +26,17 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public String viewCart(Model model, RedirectAttributes redirectAttributes) {
+    public String viewCart(Model model, Authentication authentication) {
         Map<Long, Medicament> cartItems = cartService.getCartItems();
         int cartSize = cartItems.size();
 
         BigDecimal subtotal = calculateSubtotal(cartItems);
         BigDecimal total = calculateTotal(subtotal);
 
+        // Check if user is authenticated
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
 
-
+        model.addAttribute("isAuthenticated", isAuthenticated);
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("total", total);
