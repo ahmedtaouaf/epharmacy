@@ -1,8 +1,7 @@
 package com.app.Epharmacy.Controllers;
 
-import com.app.Epharmacy.Entity.ClientInfo;
-import com.app.Epharmacy.Entity.Login;
-import com.app.Epharmacy.Entity.Medicament;
+import com.app.Epharmacy.Entity.*;
+import com.app.Epharmacy.Repository.CommandeRepository;
 import com.app.Epharmacy.Repository.LoginRepository;
 import com.app.Epharmacy.Repository.MedicationRepository;
 import com.app.Epharmacy.Services.CartService;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class DashboardController {
@@ -26,11 +26,13 @@ public class DashboardController {
     private final CartService cartService;
     private final MedicationRepository medicationRepository;
     private final LoginRepository loginRepository;
+    private final CommandeRepository commandeRepository;
 
-    public DashboardController(CartService cartService, MedicationRepository medicationRepository, LoginRepository loginRepository) {
+    public DashboardController(CartService cartService, MedicationRepository medicationRepository, LoginRepository loginRepository, CommandeRepository commandeRepository) {
         this.cartService = cartService;
         this.medicationRepository = medicationRepository;
         this.loginRepository = loginRepository;
+        this.commandeRepository = commandeRepository;
     }
 
     @GetMapping("/")
@@ -97,9 +99,15 @@ public class DashboardController {
             String username = authentication.getName();
             Login login = loginRepository.findByUsername(username);
 
+
             if (login != null) {
+
                 ClientInfo clientInfo = login.getClientInfo();
+                List<Commande> listCommandes = commandeRepository.getCommandesByClients(clientInfo.getId());
+
+
                 model.addAttribute("clientInfo", clientInfo);
+                model.addAttribute("listCommandes", listCommandes);
             } else {
 
                 return "redirect:/login";

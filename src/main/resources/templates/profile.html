@@ -103,8 +103,8 @@
                                     <div class="user-avatar">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
                                     </div>
-                                    <h5 class="user-name" th:text="${clientInfo.lastName.toUpperCase()} + ' ' + ${clientInfo.firstName.toUpperCase()}"></h5>
-                                    <h6 class="user-email" th:text="${clientInfo.email.toUpperCase()}"></h6>
+                                    <h5 class="user-name text-black" th:text="${clientInfo.lastName.toUpperCase()} + ' ' + ${clientInfo.firstName.toUpperCase()}"></h5>
+                                    <h6 class="user-email text-black" th:text="${clientInfo.email.toUpperCase()}"></h6>
                                 </div>
                             </div>
                         </div>
@@ -113,38 +113,87 @@
                 <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h6 class="mb-2 text-primary">Détails personnels</h6>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="fullName" class="text-black">Nom</label>
-                                        <input type="text" class="form-control" id="fullName" th:placeholder="${clientInfo.lastName.toUpperCase()}" readonly>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#profile">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#orders">Commandes</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div id="profile" class="tab-pane fade show active">
+                                    <div class="row gutters">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="fullName" class="text-black">Nom</label>
+                                                <input type="text" class="form-control" id="fullName" th:placeholder="${clientInfo.lastName.toUpperCase()}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="eMail" class="text-black">Prénom</label>
+                                                <input type="text" class="form-control" id="eMail" th:placeholder="${clientInfo.firstName.toUpperCase()}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="phone" class="text-black">Téléphone</label>
+                                                <input type="text" class="form-control" id="phone" th:placeholder="${clientInfo.phone.toUpperCase()}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="website" class="text-black">Email</label>
+                                                <input type="text" class="form-control" id="website" th:placeholder="${clientInfo.email.toUpperCase()}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="Street" class="text-black">Adresse</label>
+                                                <input type="name" class="form-control" id="Street" th:placeholder="${clientInfo.address.toUpperCase()}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="eMail" class="text-black">Prénom</label>
-                                        <input type="text" class="form-control" id="eMail" th:placeholder="${clientInfo.firstName.toUpperCase()}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="phone" class="text-black">Téléphone</label>
-                                        <input type="text" class="form-control" id="phone" th:placeholder="${clientInfo.phone.toUpperCase()}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="website" class="text-black">Email</label>
-                                        <input type="text" class="form-control" id="website" th:placeholder="${clientInfo.email.toUpperCase()}" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div class="form-group">
-                                        <label for="Street" class="text-black">Adresse</label>
-                                        <input type="name" class="form-control" id="Street" th:placeholder="${clientInfo.address.toUpperCase()}" readonly>
+                                <div id="orders" class="tab-pane fade">
+                                    <div class="row gutters">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Nbr Produit</th>
+                                                        <th scope="col">Date Commande</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Total</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    <tr th:each="commande : ${listCommandes}">
+
+                                                        <td th:text="${commande.id}" style="vertical-align: middle;"></td>
+                                                        <td th:text="${commande.nbrproduit}"style="vertical-align: middle;"></td>
+                                                        <td th:text="${commande.orderDate}" style="vertical-align: middle;"></td>
+                                                        <td th:if="${commande.isStatus() == true}">
+                                                            <h5><span class="badge badge-success-lighten">Confirmer</span></h5>
+                                                        </td>
+                                                        <td th:if="${commande.isStatus() == false}">
+                                                            <h5><span class="badge badge-warning-lighten">En cours</span></h5>
+                                                        </td>
+                                                        <td th:text="${commande.total}+'DHS'" style="vertical-align: middle;"></td>
+                                                        <td>
+                                                            <a th:href="@{'/admin/commandes/' + ${commande.id} + '/details'}" class="btn btn-info">Details</a>
+                                                        </td>
+                                                    </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -154,6 +203,7 @@
             </div>
         </div>
     </div>
+
 
     <div th:replace="shared/footer :: footer"></div>
 

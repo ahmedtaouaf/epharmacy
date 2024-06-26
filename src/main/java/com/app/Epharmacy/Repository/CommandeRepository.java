@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -47,6 +48,13 @@ public interface CommandeRepository extends JpaRepository<Commande, Long> {
             "ORDER BY totalRevenue DESC " +
             "LIMIT 4", nativeQuery = true)
     List<Object[]> findTop4PharmaciesByRevenue();
+
+
+    @Query("SELECT c " +
+            "FROM Commande c " +
+            "JOIN c.clientInfo i " +
+            "WHERE c.clientInfo.id = :id order by c.orderDate DESC")
+    List<Commande> getCommandesByClients(@Param("id") Long id);
 
 
 }
