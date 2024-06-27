@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>E-Pharmacy - Commande Détails</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- External CSS libraries -->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Custom CSS for order details -->
+    <style>
+        .order-details,
+        .pharmacy-info {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .order-details h2,
+        .pharmacy-info h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .order-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .order-item img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            flex-shrink: 0; /* Ensure the image does not shrink */
+        }
+        .order-item .product-info {
+            flex: 1;
+        }
+        .order-item .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .order-item .product-price {
+            font-size: 16px;
+            color: #777;
+        }
+        .order-item .product-quantity {
+            font-size: 16px;
+            color: #777;
+        }
+        .pharmacy-info p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="site-wrap">
+
+    <!-- Header section -->
+    <div th:replace="shared/header :: header"></div>
+
+    <!-- Breadcrumb -->
+    <div class="bg-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-0">
+                    <a href="/profile">Profile</a> <span class="mx-2 mb-0">/</span>
+                    <strong class="text-black">Commande Details</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order details section -->
+    <div class="site-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="order-details">
+                        <h2 th:text="${'Commande #'+commande.id}"></h2>
+                        <div th:each="medication : ${medications}" class="order-item">
+                            <img th:src="@{/images/{imageFileName}(imageFileName=${medication.imageFileName})}" alt="Product Image">
+                            <div class="product-info">
+                                <div th:text="${medication.name}" class="product-name"></div>
+                                <div th:text="${'Prix: '+medication.price}" class="product-price"></div>
+                                <div class="product-quantity">Quantité : 1</div>
+                            </div>
+                        </div>
+                        <div class="text-right mt-4">
+                            <strong th:text="${'Total: '+commande.total+'DHS'}"></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="order-details">
+                        <h2 class="text-center">Pharmacie</h2>
+                        <div class="order-item">
+                            <div class="product-info">
+                                <div class="product-name" th:text="${commande.pharmacie.nom}"></div>
+                                <div class="product-price" th:text="${'Adresse: '+commande.pharmacie.adresse}"></div>
+                                <div class="product-price" th:text="${'Téléphone: '+commande.pharmacie.telephone}"></div>
+                                <div class="product-price" th:text="${'Fix: '+commande.pharmacie.fix}"></div>
+                                <div class="product-price" th:text="${'Email: '+commande.pharmacie.email}"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer section -->
+    <div th:replace="shared/footer :: footer"></div>
+
+</div>
+
+<!-- External JS libraries -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/jquery-ui.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/aos.js"></script>
+<script src="/js/main.js"></script>
+
+</body>
+
+</html>

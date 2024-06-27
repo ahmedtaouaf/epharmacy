@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,8 +121,31 @@ public class DashboardController {
             return "profile";
         } else {
 
-            return "redirect:/login"; // Redirect to login page with error message
+            return "redirect:/login";
         }
+    }
+
+    @GetMapping("/client/commandes/{id}/details")
+    public String showOrderDetails(@PathVariable Long id, Model model) {
+        Map<Long, Medicament> cartItems = cartService.getCartItems();
+        int cartSize = cartItems.size();
+        Commande commande = commandeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid commande Id:" + id));
+        List<Commandeart> commandearts = commande.getCommandearts();
+        System.out.println(commandearts.size());
+        ClientInfo clientInfo = commande.getClientInfo();
+        Pharmacie pharmacie = commande.getPharmacie();
+        List<Long> medicamentIds = commandearts.stream().map(Commandeart::getMedicamentId).collect(Collectors.toList());
+        List<Medicament> medications = medicationRepository.findAllById(medicamentIds);
+
+        model.addAttribute("cartSize", cartSize);
+        model.addAttribute("clientInfo", clientInfo);
+        model.addAttribute("commandearts", commandearts);
+        model.addAttribute("medications", medications);
+        model.addAttribute("commande", commande);
+        model.addAttribute("pharmacie", pharmacie);
+
+
+        return "commande-details";
     }
 
 
