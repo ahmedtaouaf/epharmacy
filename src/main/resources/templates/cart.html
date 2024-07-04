@@ -72,7 +72,7 @@
                 <td th:text="${entry.value.name}" class="product-name">
                   <h2 class="h5 text-black" ></h2>
                 </td>
-                <td th:text="${entry.value.price}"></td>
+                <td th:text="${entry.value.price}+'DHS'"></td>
                 <td>
                   <div class="input-group mb-3" style="max-width: 120px;">
                     <div class="input-group-prepend">
@@ -86,7 +86,7 @@
                   </div>
 
                 </td>
-                <td th:text="${entry.value.price}"></td>
+                <td th:text="${entry.value.price}+'DHS'"></td>
 
                 <td>
                   <a href="#" class="btn btn-primary height-auto btn-sm" th:onclick="'removeFromCart(' + ${entry.value.id} + '); return false;'">X</a>
@@ -120,7 +120,7 @@
                   <span class="text-black">Subtotal</span>
                 </div>
                 <div class="col-md-6 text-right">
-                  <strong class="text-black" th:text="${subtotal}"></strong>
+                  <strong class="text-black" th:text="${subtotal}+'DHS'"></strong>
                 </div>
               </div>
               <div class="row mb-5">
@@ -128,7 +128,7 @@
                   <span class="text-black">Total</span>
                 </div>
                 <div class="col-md-6 text-right">
-                  <strong class="text-black" th:text="${total}"></strong>
+                  <strong class="text-black" th:text="${total}+'DHS'"></strong>
                 </div>
               </div>
 

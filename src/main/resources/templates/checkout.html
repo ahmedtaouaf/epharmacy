@@ -44,7 +44,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
-            <h2 class="h3 mb-3 text-black">Informations personnelles</h2>
+            <h2 class="h3 mb-3 text-black">Informations commande</h2>
             <div class="p-3 p-lg-5 border">
               <table class="table site-block-commande-table mb-5">
                 <thead>
@@ -54,15 +54,15 @@
                 <tbody>
                 <tr th:each="entry : ${cartItems}">
                   <td th:text="${entry.value.name}"> <strong class="mx-2">x</strong> 1</td>
-                  <td th:text="${entry.value.price}"></td>
+                  <td th:text="${entry.value.price}+'DHS'"></td>
                 </tr>
                 <tr>
                   <td class="text-black font-weight-bold"><strong>Panier Subtotal</strong></td>
-                  <td class="text-black" th:text="${subtotal}"></td>
+                  <td class="text-black" th:text="${subtotal}+'DHS'"></td>
                 </tr>
                 <tr>
                   <td class="text-black font-weight-bold"><strong>Total commande</strong></td>
-                  <td class="text-black font-weight-bold" th:text="${total}"><strong></strong></td>
+                  <td class="text-black font-weight-bold" th:text="${total}+'DHS'"><strong></strong></td>
                 </tr>
                 </tbody>
               </table>
@@ -73,7 +73,7 @@
     
             <div class="row mb-5">
               <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Votre commande</h2>
+                <h2 class="h3 mb-3 text-black">Mode paiement</h2>
                 <div class="p-3 p-lg-5 border">
 
     
